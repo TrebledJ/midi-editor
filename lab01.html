@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+
+    <!-- shims -->
+    <script src="midi-js/inc/shim/Base64.js" type="text/javascript"></script>
+    <script src="midi-js/inc/shim/Base64binary.js" type="text/javascript"></script>
+    <script src="midi-js/inc/shim/WebAudioAPI.js" type="text/javascript"></script>
+
+    <!-- midi.js -->
+    <script src="midi-js/js/midi/audioDetect.js" type="text/javascript"></script>
+    <script src="midi-js/js/midi/gm.js" type="text/javascript"></script>
+    <script src="midi-js/js/midi/loader.js" type="text/javascript"></script>
+    <script src="midi-js/js/midi/plugin.audiotag.js" type="text/javascript"></script>
+    <script src="midi-js/js/midi/plugin.webaudio.js" type="text/javascript"></script>
+    <script src="midi-js/js/midi/plugin.webmidi.js" type="text/javascript"></script>
+
+    <!-- utils -->
+    <script src="midi-js/js/util/dom_request_xhr.js" type="text/javascript"></script>
+    <script src="midi-js/js/util/dom_request_script.js" type="text/javascript"></script>
+
+    <title>COMP4431 Multimedia Computing - MIDI Keyboard</title>
+
+    <style>
+      body {
+        min-width: 590px;
+      }
+
+      .loading {
+        margin: 100px auto;
+        width: 80px;
+        font-size: 150%;
+        text-align: center;
+        line-height: 200%;
+      }
+
+      .loader {
+        margin: auto;
+        border: 5px solid lightgray;
+        border-top-color: blue;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .container {
+        min-width: 590px;
+        width: 590px;
+        margin-top: 10px;
+        display: none;
+      }
+
+      .keyboard {
+        float: left;
+        position: relative;
+        width: 562px;
+        height: 252px;
+        border: 1px solid lightgray;
+        background: lightgray;
+      }
+
+      .black-keys,
+      .white-keys {
+        position: absolute;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .black-key,
+      .white-key {
+        float: left;
+        border-radius: 4px;
+      }
+
+      .black-key:focus,
+      .white-key:focus {
+        border: 2px solid lightgray;
+      }
+
+      .white-key {
+        width: 40px;
+        height: 250px;
+        border: 1px solid gray;
+        background: white;
+        padding-top: 220px;
+      }
+
+      .black-key {
+        margin: 0 5px;
+        width: 30px;
+        height: 160px;
+        border: 1px solid black;
+        background: black;
+        color: white;
+        padding-top: 130px;
+      }
+
+      .spacer {
+        width: 20px;
+        float: left;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark navbar-fixed-top">
+      <div class="navbar-header">
+        <span class="navbar-brand">MIDI Keyboard</span>
+      </div>
+    </nav>
+
+    <div class="loading">Loading<div class="loader"></div>
+    </div>
+
+    <div class="container">
+
+      <!-- Here are the controls -->
+      <div class="row mb-2">
+        <div class="col-6">
+          <label for="amplitude">MIDI Amplitude:</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">0</span>
+            </div>
+            <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
+              <input class="custom-range" id="amplitude" type="range" value="100" min="0" max="127">
+            </div>
+            <div class="input-group-append">
+              <span class="input-group-text">127</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <label for="pitch">Lowest Pitch:</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">21</span>
+            </div>
+            <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
+              <input class="custom-range" id="pitch" type="range" value="60" min="21" max="85">
+            </div>
+            <div class="input-group-append">
+              <span class="input-group-text">85</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-6">
+          <label for="play-mode">Play Mode:</label>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="play-mode" id="play-mode-single" value="single" autocomplete="off" checked="">
+              Single Note
+            </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="play-mode" id="play-mode-major" value="major" autocomplete="off">
+              Major Chord
+            </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="play-mode" id="play-mode-minor" value="minor" autocomplete="off">
+              Minor Chord
+            </label>
+          </div>
+        </div>
+        <div class="col-6">
+          <label for="instrument">Instrument:</label>
+          <select id="instrument-select" class="custom-select"></select>
+        </div>
+      </div>
+
+      <div class="keyboard">
+        <!-- First we draw the white keys -->
+        <div class="white-keys">
+          <button type="button" class="white-key" id="key-0">z</button>
+          <button type="button" class="white-key" id="key-2">x</button>
+          <button type="button" class="white-key" id="key-4">c</button>
+          <button type="button" class="white-key" id="key-5">v</button>
+          <button type="button" class="white-key" id="key-7">b</button>
+          <button type="button" class="white-key" id="key-9">n</button>
+          <button type="button" class="white-key" id="key-11">m</button>
+          <button type="button" class="white-key" id="key-12">w</button>
+          <button type="button" class="white-key" id="key-14">e</button>
+          <button type="button" class="white-key" id="key-16">r</button>
+          <button type="button" class="white-key" id="key-17">t</button>
+          <button type="button" class="white-key" id="key-19">y</button>
+          <button type="button" class="white-key" id="key-21">u</button>
+          <button type="button" class="white-key" id="key-23">i</button>
+        </div>
+
+        <!-- Now we draw the black keys, so they appear on top of the white keys
+        (in a web page, things included later are normally shown on top of things included earlier) -->
+        <div class="black-keys">
+          <div class="spacer">&nbsp;</div>
+          <button type="button" class="black-key" id="key-1">s</button>
+          <button type="button" class="black-key" id="key-3">d</button>
+          <div class="spacer">&nbsp;</div>
+          <div class="spacer">&nbsp;</div>
+          <button type="button" class="black-key" id="key-6">g</button>
+          <button type="button" class="black-key" id="key-8">h</button>
+          <button type="button" class="black-key" id="key-10">j</button>
+          <div class="spacer">&nbsp;</div>
+          <div class="spacer">&nbsp;</div>
+          <button type="button" class="black-key" id="key-13">3</button>
+          <button type="button" class="black-key" id="key-15">4</button>
+          <div class="spacer">&nbsp;</div>
+          <div class="spacer">&nbsp;</div>
+          <button type="button" class="black-key" id="key-18">6</button>
+          <button type="button" class="black-key" id="key-20">7</button>
+          <button type="button" class="black-key" id="key-22">8</button>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="jquery/jquery-3.5.1.min.js"></script>
+    <script src="bootstrap/bootstrap.min.js"></script>
+
+    <!-- the lab JavaScript -->
+    <script src="lab01.js" type="text/javascript"></script>
+
+  </body>
+</html>
