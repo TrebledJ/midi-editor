@@ -186,7 +186,7 @@ function handlePageKeyUp(evt) {
 
 $(document).ready(function () {
     MIDI.loadPlugin({
-        soundfontUrl: "./midi-js/soundfont/",
+        soundfontUrl: "../assets/midi-js/soundfont/",
         instruments: [
             "trumpet"
             /*
