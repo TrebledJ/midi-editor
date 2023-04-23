@@ -27,7 +27,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
             is:"webaudio-pianoroll",
             properties:{
                 width:              {type:Number, value:980, observer:'layout'},
-                height:             {type:Number, value:470, observer:'layout'},
+                height:             {type:Number, value:473, observer:'layout'},
                 timebase:           {type:Number, value:16, observer:'layout'},
                 editmode:           {type:String, value:"dragpoly"},
                 xrange:             {type:Number, value:16, observer:'layout'},
@@ -106,18 +106,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
     background-size:100% calc(100%*12/16);
     background-position:left bottom;
 }
-#wac-menu {
-    display:none;
-    position:absolute;
-    top:0px;
-    left:0px;
-    background:#eef;
-    color:#000;
-    padding:2px 10px;
-    border:1px solid #66f;
-    border-radius: 4px;
-    cursor:pointer;
-}
+
 .marker{
     position: absolute;
     left:0px;
@@ -142,7 +131,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
 <img id="wac-markstart" class="marker" src="${this.markstartsrc}"/>
 <img id="wac-markend" class="marker" src="${this.markendsrc}"/>
 <img id="wac-cursor" class="marker" src="${this.cursorsrc}"/>
-<div id="wac-menu">Delete</div>
+// <div id="wac-menu">abc</div>
 </div>`;
 
         this.sortSequence=function(){
@@ -484,6 +473,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
             }
         };
         this.delSelectedNote=function(){
+            console.log("delete note");
             const l=this.sequence.length;
             for(let i=l-1;i>=0;--i){
                 const ev=this.sequence[i];
@@ -896,6 +886,14 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
             ev.stopPropagation();
             return false;
         };
+
+        // Double click --> Delete note
+        this.ondblclick = function(){
+            console.log("double click")
+            this.delSelectedNote();
+            this.redraw();
+        };
+
         this.cancel= function(ev) {
             let e;
             if(ev.touches)
