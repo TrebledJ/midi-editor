@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="../assets/bootstrap/bootstrap4-toggle.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
 
   <!-- shims -->
@@ -33,7 +34,7 @@
   <!-- Piano roll -->
   <script src="../user_interface/pianoroll_plugin/webaudio-pianoroll.js"></script>
   <!-- Note Control -->
-  <script src="../user_interface/note_control/select.js"></script>
+  <!-- <script src="../user_interface/note_control/select.js"></script> -->
   <!-- <script src="webcomponents-lite.min.js"></script> -->
 
   <title>COMP4431 Multimedia Computing - MIDI Keyboard</title>
@@ -82,10 +83,10 @@
       float: left;
       position: relative;
       left: 25px;
-      top: -449px;
+      top: -464px;
       width: 50px;
       height: 80px;
- 
+
     }
 
     .black-keys,
@@ -191,14 +192,149 @@
 
     }
 
-    .container-fluid { 
+    .slidecontainer {
+      width: 875px;
+      margin-left: 40px;
+    }
+
+  
+    /* The slider itself */
+    .slider {
+      -webkit-appearance: none;
+      /* Override default CSS styles */
+      appearance: none;
+      width: 100%;
+      /* Full-width */
+      height: 25px;
+      /* Specified height */
+      background: #d3d3d3;
+      /* Grey background */
+      outline: none;
+      /* Remove outline */
+      opacity: 0.7;
+      /* Set transparency (for mouse-over effects on hover) */
+      -webkit-transition: .2s;
+      /* 0.2 seconds transition on hover */
+      transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+      opacity: 1;
+      /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      /* Override default look */
+      appearance: none;
+      width: 25px;
+      /* Set a specific slider handle width */
+      height: 25px;
+      /* Slider handle height */
+      background: #04AA6D;
+      /* Green background */
+      cursor: pointer;
+      /* Cursor on hover */
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px;
+      /* Set a specific slider handle width */
+      height: 25px;
+      /* Slider handle height */
+      background: #04AA6D;
+      /* Green background */
+      cursor: pointer;
+      /* Cursor on hover */
+    }
+
+    .verticalslidercontainer {
+      position: relative;
+      width: 465px;
+      left: 765px;
+      top: 272px;
+      transform: rotate(270deg);
+    }
+
+    /* The slider itself */
+    .verticalslider {
+      -webkit-appearance: none;
+      /* Override default CSS styles */
+      appearance: none;
+      width: 100%;
+      /* Full-width */
+      height: 25px;
+      /* Specified height */
+      background: #d3d3d3;
+      /* Grey background */
+      outline: none;
+      /* Remove outline */
+      opacity: 0.7;
+      /* Set transparency (for mouse-over effects on hover) */
+      -webkit-transition: .2s;
+      /* 0.2 seconds transition on hover */
+      transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .verticalslider:hover {
+      opacity: 1;
+      /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .verticalslider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      /* Override default look */
+      appearance: none;
+      width: 25px;
+      /* Set a specific slider handle width */
+      height: 25px;
+      /* Slider handle height */
+      background: red;
+      /* Green background */
+      cursor: pointer;
+      /* Cursor on hover */
+    }
+
+    .verticalslider::-moz-range-thumb {
+      width: 25px;
+      /* Set a specific slider handle width */
+      height: 25px;
+      /* Slider handle height */
+      background: red;
+      /* Green background */
+      cursor: pointer;
+      /* Cursor on hover */
+    }
+
+
+    .container-fluid {
       margin-top: 10px;
 
-     }
-    .nav-item { width: 25%; }
-    .nav-tabs, .nav-tabs .dropdown-item { font-size: 14px; }
-    .toggle { height: 38px !important; }
-    canvas { border: 1px solid black; }
+    }
+
+    .nav-item {
+      
+      width: 25%;
+    }
+
+    .nav-tabs,
+    .nav-tabs .dropdown-item {
+      font-size: 14px;
+      margin-left: 50px;
+      
+    }
+
+    .toggle {
+      height: 38px !important;
+    }
+
+    canvas {
+      border: 1px solid black;
+    }
   </style>
 </head>
 
@@ -216,7 +352,7 @@
 
     <!-- Here are the controls -->
     <div class="row">
-      <div class="col-8-auto">
+      <div class="col-4-auto">
         <!-- <label for="interface">Inferfacing</label> -->
         <div class="input-group">
           <button type="button" class="button" id="record-button">
@@ -226,16 +362,16 @@
           </button>
         </div>
       </div>
-      <div class="col-8-auto">
+      <div class="col-4-auto">
         <div class="input-group">
           <button type="button" class="button" id="upload">
             <span class="button_text">Upload</span>
             <span class="button_icon">
-              <i class="fa-regular fa-upload"></i>
+              <i class="fa-regular fa-upload fa-bounce"></i>
           </button>
         </div>
       </div>
-      <div class="col-8-auto">
+      <div class="col-4-auto">
         <div class="input-group">
           <button type="button" class="button" id="save">
             <span class="button_text">Save</span>
@@ -299,528 +435,219 @@
           <select id="instrument-select" class="custom-select"></select>
         </div>
       </div> --> <!-- Side navigation -->
-      
-
-
-
-      <div class="track">
-        <table border="1" style:"block" width="100%" height="100%">
-          <thread>
-            <tr>
-              <th>Tracks</th>
-              <th>Instrument</th>
-              <th>Show</th>
-              <th>Mute</th>
-              <div class="col-12"><th>Solo</th>
-            </tr>
-          </thread>
-          <tr>
-            <td>Track 1</td>
-            <td><select class="instrument-select" id="instrument-select-1"></select>
-              <br>
-              <input class="instrument-volume-control" id="instrument-volume-control-1" type="range" value="0.5" min="0" max="1" step="0.05">
-            </td>
-            <td><input type="checkbox" class="show-track" id="show-track-1"></td>
-            <td><input type="checkbox" class="mute-track" id="mute-track-1"></td>
-            <td><input type="checkbox" class="solo-track" id="solo-track-1"></td>
-          </tr>
-          <tr>
-            <td>Track 2</td>
-            <td><select class="instrument-select" id="instrument-select-2"></select>
-              <br>
-              <input class="instrument-volume-control" id="instrument-volume-control-2" type="range" value="0.5" min="0" max="1" step="0.05">
-            </td>
-            <td><input type="checkbox" class="show-track" id="show-track-2"></td>
-            <td><input type="checkbox" class="mute-track" id="mute-track-2"></td>
-            <td><input type="checkbox" class="solo-track" id="solo-track-2"></td>
-          </tr>
-          <tr>
-            <td>Track 3</td>
-            <td><select class="instrument-select" id="instrument-select-3"></select>
-              <br>
-              <input class="instrument-volume-control" id="instrument-volume-control-3" type="range" value="0.5" min="0" max="1" step="0.05">
-            </td>
-            <td><input type="checkbox" class="show-track" id="show-track-3"></td>
-            <td><input type="checkbox" class="mute-track" id="mute-track-3"></td>
-            <td><input type="checkbox" class="solo-track" id="solo-track-3"></td>
-          </tr>
-          <tr>
-            <td>Track 4</td>
-            <td><select class="instrument-select" id="instrument-select-4"></select>
-              <br>
-              <input class="instrument-volume-control" id="instrument-volume-control-4" type="range" value="0.5" min="0" max="1" step="0.05">
-            </td>
-            <td><input type="checkbox" class="show-track" id="show-track-4"></td>
-            <td><input type="checkbox" class="mute-track" id="mute-track-4"></td>
-            <td><input type="checkbox" class="solo-track" id="solo-track-4"></td>
-          </tr>
-          <tr>
-            <td>Track 5</td>
-            <td><select class="instrument-select" id="instrument-select-5"></select>
-              <br>
-              <input class="instrument-volume-control" id="instrument-volume-control-5" type="range" value="0.5" min="0" max="1" step="0.05">
-            </td>
-            <td><input type="checkbox" class="show-track" id="show-track-5"></td>
-            <td><input type="checkbox" class="mute-track" id="mute-track-5"></td>
-            <td><input type="checkbox" class="solo-track" id="solo-track-5"></td>
-          </tr>
-        </table>
+      <div class="verticalslidercontainer">
+        <input type="range" min="1" max="100" value="50" class="verticalslider" id="myRange">
       </div>
-      <webaudio-pianoroll wheelzoom=1></webaudio-pianoroll>
+  
 
 
 
-      <div class="keyboard">
-        <!-- First we draw the white keys -->
-        <div class="white-keys">
-          <button type="button" class="white-key" id="key-0">z</button>
-          <button type="button" class="white-key" id="key-2">x</button>
-          <button type="button" class="white-key" id="key-4">c</button>
-          <button type="button" class="white-key" id="key-5">v</button>
-          <button type="button" class="white-key" id="key-7">b</button>
-          <button type="button" class="white-key" id="key-9">n</button>
-          <button type="button" class="white-key" id="key-11">m</button>
-          <button type="button" class="white-key" id="key-12">w</button>
-          <button type="button" class="white-key" id="key-14">e</button>
-          <button type="button" class="white-key" id="key-16">r</button>
-          <button type="button" class="white-key" id="key-17">t</button>
-          <button type="button" class="white-key" id="key-19">y</button>
-          <button type="button" class="white-key" id="key-21">u</button>
-          <button type="button" class="white-key" id="key-23">i</button>
-        </div>
 
-        <!-- Now we draw the black keys, so they appear on top of the white keys
-        (in a web page, things included later are normally shown on top of things included earlier) -->
-        <div class="black-keys">
-          <div class="spacer">&nbsp;</div>
-          <button type="button" class="black-key" id="key-1">s</button>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <button type="button" class="black-key" id="key-3">d</button>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <button type="button" class="black-key" id="key-6">g</button>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <button type="button" class="black-key" id="key-8">h</button>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <button type="button" class="black-key" id="key-10">j</button>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <button type="button" class="black-key" id="key-13">3</button>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <button type="button" class="black-key" id="key-15">4</button>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <button type="button" class="black-key" id="key-18">6</button>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <button type="button" class="black-key" id="key-20">7</button>
-          <div class="spacer">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <div class="spacer2">&nbsp;</div>
-          <button type="button" class="black-key" id="key-22">8</button>
-        </div>
-      </div>
+    <div class="track">
+      <table border="1" style:"block" width="100%" height="100%">
+        <thread>
+          <tr>
+            <th>Tracks</th>
+            <th>Instrument</th>
+            <th>Show</th>
+            <th>Mute</th>
+            <div class="col-12">
+              <th>Solo</th>
+          </tr>
+        </thread>
+        <tr>
+          <td>Track 1</td>
+          <td><select class="instrument-select" id="instrument-select-1"></select>
+            <br>
+            <input class="instrument-volume-control" id="instrument-volume-control-1" type="range" value="0.5" min="0"
+              max="1" step="0.05">
+          </td>
+          <td><input type="checkbox" class="show-track" id="show-track-1"></td>
+          <td><input type="checkbox" class="mute-track" id="mute-track-1"></td>
+          <td><input type="checkbox" class="solo-track" id="solo-track-1"></td>
+        </tr>
+        <tr>
+          <td>Track 2</td>
+          <td><select class="instrument-select" id="instrument-select-2"></select>
+            <br>
+            <input class="instrument-volume-control" id="instrument-volume-control-2" type="range" value="0.5" min="0"
+              max="1" step="0.05">
+          </td>
+          <td><input type="checkbox" class="show-track" id="show-track-2"></td>
+          <td><input type="checkbox" class="mute-track" id="mute-track-2"></td>
+          <td><input type="checkbox" class="solo-track" id="solo-track-2"></td>
+        </tr>
+        <tr>
+          <td>Track 3</td>
+          <td><select class="instrument-select" id="instrument-select-3"></select>
+            <br>
+            <input class="instrument-volume-control" id="instrument-volume-control-3" type="range" value="0.5" min="0"
+              max="1" step="0.05">
+          </td>
+          <td><input type="checkbox" class="show-track" id="show-track-3"></td>
+          <td><input type="checkbox" class="mute-track" id="mute-track-3"></td>
+          <td><input type="checkbox" class="solo-track" id="solo-track-3"></td>
+        </tr>
+        <tr>
+          <td>Track 4</td>
+          <td><select class="instrument-select" id="instrument-select-4"></select>
+            <br>
+            <input class="instrument-volume-control" id="instrument-volume-control-4" type="range" value="0.5" min="0"
+              max="1" step="0.05">
+          </td>
+          <td><input type="checkbox" class="show-track" id="show-track-4"></td>
+          <td><input type="checkbox" class="mute-track" id="mute-track-4"></td>
+          <td><input type="checkbox" class="solo-track" id="solo-track-4"></td>
+        </tr>
+        <tr>
+          <td>Track 5</td>
+          <td><select class="instrument-select" id="instrument-select-5"></select>
+            <br>
+            <input class="instrument-volume-control" id="instrument-volume-control-5" type="range" value="0.5" min="0"
+              max="1" step="0.05">
+          </td>
+          <td><input type="checkbox" class="show-track" id="show-track-5"></td>
+          <td><input type="checkbox" class="mute-track" id="mute-track-5"></td>
+          <td><input type="checkbox" class="solo-track" id="solo-track-5"></td>
+        </tr>
+      </table>
     </div>
-
-
-
-    
-
-
-
-
-
-
-    <!-- testing -->
+    <webaudio-pianoroll></webaudio-pianoroll>
     <!-- <webaudio-pianoroll wheelzoom=1></webaudio-pianoroll> -->
 
 
-    <br>
-    <div class="row"><div class="col-8">&nbsp;</div></div>
 
-    <div class="row">
-        <div class="col-8">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs nav-fill">
+    <div class="keyboard">
+      <!-- First we draw the white keys -->
+      <div class="white-keys">
+        <button type="button" class="white-key" id="key-0">z</button>
+        <button type="button" class="white-key" id="key-2">x</button>
+        <button type="button" class="white-key" id="key-4">c</button>
+        <button type="button" class="white-key" id="key-5">v</button>
+        <button type="button" class="white-key" id="key-7">b</button>
+        <button type="button" class="white-key" id="key-9">n</button>
+        <button type="button" class="white-key" id="key-11">m</button>
+        <button type="button" class="white-key" id="key-12">w</button>
+        <button type="button" class="white-key" id="key-14">e</button>
+        <button type="button" class="white-key" id="key-16">r</button>
+        <button type="button" class="white-key" id="key-17">t</button>
+        <button type="button" class="white-key" id="key-19">y</button>
+        <button type="button" class="white-key" id="key-21">u</button>
+        <button type="button" class="white-key" id="key-23">i</button>
+      </div>
 
-                <!-- Basic processing -->
-                <li class="nav-item dropdown" id="basic-dropdown">
-                    <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#">Note Controls<br><span class="title"><i>Do Nothing</i></span>
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#no-op"><i>Do Nothing</i></a></li>
-                        <li><a class="dropdown-item" href="#negation">Negation</a></li>
-                        <li><a class="dropdown-item" href="#grayscale">GrayScale</a></li>
-                        <li><a class="dropdown-item" href="#brightness">Brightness</a></li>
-                        <li><a class="dropdown-item" href="#contrast">Contrast</a></li>
-                        <li><a class="dropdown-item" href="#posterization">Posterization</a></li>
-                        <li><a class="dropdown-item" href="#threshold">Threshold</a></li>
-                        <li><a class="dropdown-item" href="#comic-color">Comic Colour</a></li>
-                        <li><a class="dropdown-item" href="#auto-contrast">Automatic Contrast</a></li>
-                    </ul>
-                </li>
-
-                <!-- Base layer -->
-                <li class="nav-item dropdown" id="base-dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Base Layer<br><span class="title"><i>Do Nothing</i></span>
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#no-op"><i>Do Nothing</i></a></li>
-                        <li><a class="dropdown-item" href="#blur">Blur</a></li>
-                        <li><a class="dropdown-item" href="#kuwahara">Kuwahara Filter</a></li>
-                    </ul>
-                </li>
-
-                <!-- Shade layer -->
-                <li class="nav-item dropdown" id="shade-dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Shade Layer<br><span class="title"><i>Do Nothing</i></span>
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#no-op"><i>Do Nothing</i></a></li>
-                        <li><a class="dropdown-item" href="#dither">Ordered Dithering</a></li>
-                    </ul>
-                </li>
-
-                <!-- Outline layer -->
-                <li class="nav-item dropdown" id="outline-dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Outline Layer<br><span class="title"><i>Do Nothing</i></span>
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#no-op"><i>Do Nothing</i></a></li>
-                        <li><a class="dropdown-item" href="#sobel">Sobel Edge</a></li>
-                    </ul>
-                </li>
-
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-
-                <!-- No op -->
-                <div class="tab-pane active" id="no-op">
-                    <div class="container-fluid">
-                        <p>No parameters available</p>
-                    </div>
-                </div>
-
-                <!-- Negation -->
-                <div class="tab-pane" id="negation">
-                    <div class="container-fluid">
-                        <p>No parameters available</p>
-                    </div>
-                </div>
-
-                <!-- Grayscale -->
-                <div class="tab-pane" id="grayscale">
-                    <div class="container-fluid">
-                        <p>No parameters available</p>
-                    </div>
-                </div>
-
-                <!-- Brightness -->
-                <div class="tab-pane" id="brightness">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="brightness-offset">Brightness offset:</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="brightness-offset" type="range" value="0" min="-255" max="255" step="1"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text d-block" style="width: 4em">0</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Contrast -->
-                <div class="tab-pane" id="contrast">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="contrast-factor">Contrast factor:</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="contrast-factor" type="range" value="1" min="0" max="5" step="0.1"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text d-block" style="width: 3.5em">1</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Posterization -->
-                <div class="tab-pane" id="posterization">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="posterization-red-bits">Red bits (to keep):</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="posterization-red-bits" type="range" value="2" min="1" max="8" step="1"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val() + ' bits')">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text">2 bits</span></div>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <label for="posterization-green-bits">Green bits (to keep):</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="posterization-green-bits" type="range" value="2" min="1" max="8" step="1"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val() + ' bits')">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text">2 bits</span></div>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <label for="posterization-blue-bits">Blue bits (to keep):</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="posterization-blue-bits" type="range" value="2" min="1" max="8" step="1"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val() + ' bits')">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text">2 bits</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Threshold -->
-                <div class="tab-pane" id="threshold">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="threshold-value">Threshold value:</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="threshold-value" type="range" value="128" min="1" max="255" step="1"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text d-block" style="width: 3.5em">128</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Comic colour -->
-                <div class="tab-pane" id="comic-color">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="comic-color-saturation">Saturation multiplier:</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="comic-color-saturation" type="range" value="2" min="1" max="8" step="1"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text">&times; <span>2</span></span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Automatic contrast -->
-                <div class="tab-pane" id="auto-contrast">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="auto-contrast-type">Type:</label>
-                                <select class="custom-select" id="auto-contrast-type">
-                                    <option value="gray">Gray Level</option>
-                                    <option value="color">Individual Colour</option>
-                                </select>
-                            </div>
-                            <div class="col-4">
-                                <label for="auto-contrast-percentage">Percentage of pixels to ignore:</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="auto-contrast-percentage" type="range" value="5" min="0" max="50" step="1"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text d-block" style="width: 4em"><span>5</span>%</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Blur -->
-                <div class="tab-pane" id="blur">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="blur-input">Input:</label>
-                                <select class="custom-select" id="blur-input">
-                                    <option value="original">Original Image</option>
-                                    <option value="processed">Processed Image</option>
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <label for="blur-kernel-size">Kernel size:</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="blur-kernel-size" type="range" value="3" min="3" max="9" step="2"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text"><span>3</span> &times; <span>3</span></span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kuwahara filter -->
-                <div class="tab-pane" id="kuwahara">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="kuwahara-input">Input:</label>
-                                <select class="custom-select" id="kuwahara-input">
-                                    <option value="original">Original Image</option>
-                                    <option value="processed">Processed Image</option>
-                                </select>
-                            </div>
-                            <div class="col-4">
-                                <label for="kuwahara-filter-size">Filter size:</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="kuwahara-filter-size" type="range" value="5" min="5" max="13" step="4"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
-                                    </div>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ordered dithering -->
-                <div class="tab-pane" id="dither">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="dither-input">Input:</label>
-                                <select class="custom-select" id="dither-input">
-                                    <option value="original">Original Image</option>
-                                    <option value="processed">Processed Image</option>
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <label for="dither-matrix-type">Matrix type:</label>
-                                <select class="custom-select" id="dither-matrix-type">
-                                    <option value="bayer2">Bayer's 2&times;2 Matrix</option>
-                                    <option value="bayer4">Bayer's 4&times;4 Matrix</option>
-                                    <option value="line">Diagonal Lines</option>
-                                    <option value="diamond">Diamonds</option>
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <label for="dither-transparent">White shown as transparent:</label>
-                                <div class="input-group">
-                                    <input class="form-control toggle-control" id="dither-transparent" type="checkbox" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sobel edge -->
-                <div class="tab-pane" id="sobel">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-3">
-                                <label for="sobel-input">Input:</label>
-                                <select class="custom-select" id="sobel-input">
-                                    <option value="original">Original Image</option>
-                                    <option value="processed">Processed Image</option>
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <label for="sobel-threshold">Threshold value:</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="sobel-threshold" type="range" value="128" min="0" max="255" step="1"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text d-block" style="width: 3.5em">128</span></div>
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <label for="sobel-blur">Blur before edge detection:</label>
-                                <div class="input-group">
-                                    <input class="form-control toggle-control" id="sobel-blur" type="checkbox" />
-                                </div>
-                            </div>
-                            <div class="col-3">
-                                <label for="sobel-blur-kernel-size">Blur kernel size:</label>
-                                <div class="input-group">
-                                    <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                        <input class="custom-range" id="sobel-blur-kernel-size" type="range" value="3" min="3" max="9" step="2"
-                                         oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
-                                    </div>
-                                    <div class="input-group-append"><span class="input-group-text"><span>3</span> &times; <span>3</span></span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-3">&nbsp;</div>
-                            <div class="col-3">
-                                <label for="sobel-flip">Flip edge colour:</label>
-                                <div class="input-group">
-                                    <input class="form-control toggle-control" id="sobel-flip" type="checkbox" />
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <label for="sobel-transparent">Non-edge shown as transparent:</label>
-                                <div class="input-group">
-                                    <input class="form-control toggle-control" id="sobel-transparent" type="checkbox" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+      <!-- Now we draw the black keys, so they appear on top of the white keys
+        (in a web page, things included later are normally shown on top of things included earlier) -->
+      <div class="black-keys">
+        <div class="spacer">&nbsp;</div>
+        <button type="button" class="black-key" id="key-1">s</button>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <button type="button" class="black-key" id="key-3">d</button>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <button type="button" class="black-key" id="key-6">g</button>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <button type="button" class="black-key" id="key-8">h</button>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <button type="button" class="black-key" id="key-10">j</button>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <button type="button" class="black-key" id="key-13">3</button>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <button type="button" class="black-key" id="key-15">4</button>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <button type="button" class="black-key" id="key-18">6</button>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <button type="button" class="black-key" id="key-20">7</button>
+        <div class="spacer">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <div class="spacer2">&nbsp;</div>
+        <button type="button" class="black-key" id="key-22">8</button>
+      </div>
     </div>
+
+
     
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- testing -->
+  <!-- <webaudio-pianoroll wheelzoom=1></webaudio-pianoroll> -->
+
+
+
+  <div class="row">
+    <div class="col-4">
+
+      <div class="slidecontainer">
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+      </div>
+
+    </div>
+  </div>
+
+  <br>
+  <div class="row">
+    <div class="col-4">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <ul class="nav nav-tabs nav-fill">
+        <li class="nav-item">
+          <a class="nav-link active" href="#input-video-1-tab" data-toggle="tab">Input Video 1</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#input-video-2-tab" data-toggle="tab">Input Video 2</a>
+        </li>
+      </ul>
+    </div>
+
+
+
+  </div>
+  </div>
+
 
   </div>
 
@@ -836,8 +663,8 @@
   <script src="../assets/bootstrap/bootstrap4-toggle.min.js"></script>
   <!-- the lab JavaScript -->
   <script src="index.js" type="text/javascript"></script>
-    <!-- Note Control -->
-    <script src="../user_interface/note_control/select.js"></script>
+  <!-- Note Control -->
+  <script src="../user_interface/note_control/select.js"></script>
 
 </body>
 

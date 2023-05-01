@@ -27,7 +27,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
             is:"webaudio-pianoroll",
             properties:{
                 width:              {type:Number, value:980, observer:'layout'},
-                height:             {type:Number, value:473, observer:'layout'},
+                height:             {type:Number, value:490, observer:'layout'},
                 timebase:           {type:Number, value:16, observer:'layout'},
                 editmode:           {type:String, value:"dragpoly"},
                 xrange:             {type:Number, value:16, observer:'layout'},
@@ -887,7 +887,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
             return false;
         };
 
-        // Double click --> Delete note
+        // Double click --> Delete
         this.ondblclick = function(){
             console.log("double click")
             this.delSelectedNote();
