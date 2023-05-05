@@ -27,7 +27,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
             is:"webaudio-pianoroll",
             properties:{
                 width:              {type:Number, value:980, observer:'layout'},
-                height:             {type:Number, value:490, observer:'layout'},
+                height:             {type:Number, value:475, observer:'layout'},
                 timebase:           {type:Number, value:16, observer:'layout'},
                 editmode:           {type:String, value:"dragpoly"},
                 xrange:             {type:Number, value:16, observer:'layout'},
