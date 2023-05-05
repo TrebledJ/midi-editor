@@ -186,7 +186,7 @@ function handlePageKeyUp(evt) {
 
 $(document).ready(function () {
     MIDI.loadPlugin({
-        soundfontUrl: "./midi-js/soundfont/",
+        soundfontUrl: "../assets/midi-js/soundfont/",
         instruments: [
             "trumpet"
             /*
@@ -229,6 +229,13 @@ $(document).ready(function () {
             });
         }
     });
+
+    // Enable Bootstrap Toggle
+    $("input[type=checkbox]").bootstrapToggle();
+
+    // Set up the event handlers
+    $('a.nav-link').on("click", showTab); // Tab clicked
+    $('a.dropdown-item').on("click", changeTabs); // Tab item clicked
 
     for (const inst in instruments) {
         $(`<option value="${inst}">${inst}</option>`).appendTo("#instrument-select");
