@@ -93,6 +93,7 @@
       display: none;
     }
 
+    /* Keyboard Drawing*/
     .keyboard {
       float: left;
       position: relative;
@@ -100,7 +101,6 @@
       top: -450px;
       width: 50px;
       height: 80px;
-
     }
 
     .black-keys,
@@ -123,6 +123,7 @@
     }
 
     .white-key {
+      margin: 0 0px;
       width: 80px;
       height: 10px;
       border: 1px solid gray;
@@ -145,9 +146,11 @@
     .spacer {
       height: 20px;
     }
-
-    .spacer2 {
-      height: 5px;
+    .spacer3{
+      height: 32px;
+    }
+    .widespace{
+      height: 82px;
     }
 
     h3,
@@ -156,6 +159,7 @@
       line-height: 1.5em;
     }
 
+    /* Interface Button*/
     .button {
       display: inline-flex;
       height: 50px;
@@ -195,6 +199,7 @@
       background: rgba(0, 0, 0, 0.08);
     }
 
+    /* MIDI Track */
     .track {
       position: relative;
       background-color: purple;
@@ -206,62 +211,42 @@
 
     }
 
+    /* Slider */
     .slidecontainer {
       width: 875px;
       margin-left: 40px;
     }
 
-
-    /* The slider itself */
     .slider {
       -webkit-appearance: none;
-      /* Override default CSS styles */
       appearance: none;
       width: 100%;
-      /* Full-width */
       height: 25px;
-      /* Specified height */
       background: #d3d3d3;
-      /* Grey background */
       outline: none;
-      /* Remove outline */
       opacity: 0.7;
-      /* Set transparency (for mouse-over effects on hover) */
       -webkit-transition: .2s;
-      /* 0.2 seconds transition on hover */
       transition: opacity .2s;
     }
 
-    /* Mouse-over effects */
     .slider:hover {
       opacity: 1;
-      /* Fully shown on mouse-over */
     }
 
-    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      /* Override default look */
       appearance: none;
       width: 25px;
-      /* Set a specific slider handle width */
       height: 25px;
-      /* Slider handle height */
       background: #04AA6D;
-      /* Green background */
       cursor: pointer;
-      /* Cursor on hover */
     }
 
     .slider::-moz-range-thumb {
       width: 25px;
-      /* Set a specific slider handle width */
       height: 25px;
-      /* Slider handle height */
       background: #04AA6D;
-      /* Green background */
       cursor: pointer;
-      /* Cursor on hover */
     }
 
     .verticalslidercontainer {
@@ -272,82 +257,36 @@
       transform: rotate(270deg);
     }
 
-    /* The slider itself */
     .verticalslider {
       -webkit-appearance: none;
-      /* Override default CSS styles */
       appearance: none;
       width: 100%;
-      /* Full-width */
       height: 25px;
-      /* Specified height */
       background: #d3d3d3;
-      /* Grey background */
       outline: none;
-      /* Remove outline */
       opacity: 0.7;
-      /* Set transparency (for mouse-over effects on hover) */
       -webkit-transition: .2s;
-      /* 0.2 seconds transition on hover */
       transition: opacity .2s;
     }
 
-    /* Mouse-over effects */
     .verticalslider:hover {
       opacity: 1;
-      /* Fully shown on mouse-over */
     }
 
-    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
     .verticalslider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      /* Override default look */
       appearance: none;
       width: 25px;
-      /* Set a specific slider handle width */
       height: 25px;
-      /* Slider handle height */
       background: red;
-      /* Green background */
       cursor: pointer;
-      /* Cursor on hover */
     }
 
     .verticalslider::-moz-range-thumb {
       width: 25px;
-      /* Set a specific slider handle width */
       height: 25px;
-      /* Slider handle height */
       background: red;
-      /* Green background */
       cursor: pointer;
-      /* Cursor on hover */
-    }
-
-
-    .container-fluid {
-      margin-top: 10px;
-
-    }
-
-    .nav-item {
-
-      width: 25%;
-    }
-
-    .nav-tabs,
-    .nav-tabs .dropdown-item {
-      font-size: 14px;
-      margin-left: 50px;
-
-    }
-
-    .toggle {
-      height: 38px !important;
-    }
-
-    canvas {
-      border: 1px solid black;
     }
 
     .btn-toolbar {
@@ -355,8 +294,8 @@
       left: 380px;
     }
 
+    /* Time Display */
     .timedisplay-topbox {
-
       position: relative;
       left: 180px;
       align-items: center;
@@ -369,14 +308,6 @@
       border-top: 10px ridge transparent;
       border-bottom: 5px inset transparent;
       border-radius: 10px
-    }
-
-    .switch-container {
-      width: 24em;
-      height: 10em;
-      border-radius: 10em;
-      box-shadow: 5px 5px 15px 5px #cfd8dc;
-      position: relative;
     }
   </style>
 </head>
@@ -393,10 +324,9 @@
 
   <div class="container">
 
-    <!-- Here are the controls -->
+    <!-- File Mangement Interface -->
     <div class="row">
       <div class="col-4-auto">
-        <!-- <label for="interface">Inferfacing</label> -->
         <div class="input-group">
           <button type="button" class="button" id="record-button">
             <span class="button_text">Record</span>
@@ -424,6 +354,7 @@
         </div>
       </div>
 
+      <!-- MIDI PLay Stop Control -->
       <div class="col-4">
         <div class="btn-toolbar">
           <div class="btn-group btn-group-lg ">
@@ -432,22 +363,20 @@
           </div>
         </div>
       </div>
-      <div class="timedisplay-topbox"></div>
-      <p>Display: 10:00:00 <span id='current-time'></span></p>
+
+      <!-- Time Display -->
+      <div class="timedisplay-topbox" id = "time-display">
+        <h5>10:00:00<h5>
+      </div>
       <div class="timedisplay-bottombox"></div>
     </div>
 
-
-
-    <!-- Side navigation -->
+    <!-- Vertical Note Track Control -->
     <div class="verticalslidercontainer">
       <input type="range" min="1" max="100" value="50" class="verticalslider" id="vertical-slide">
     </div>
 
-
-
-
-
+    <!-- Track Control Panel -->
     <div class="track">
       <table border="1" style:"block" width="100%" height="100%">
         <thread>
@@ -521,101 +450,86 @@
         </tr>
       </table>
     </div>
-    <!-- <webaudio-pianoroll></webaudio-pianoroll> -->
+
+    <!-- Pianoroll Plug In -->
     <webaudio-pianoroll wheelzoom=1></webaudio-pianoroll>
 
-
-
+    <!-- Keyboard -->
     <div class="keyboard">
-      <!-- First we draw the white keys -->
       <div class="white-keys">
-        <button type="button" class="white-key" id="key-0">z</button>
-        <button type="button" class="white-key" id="key-2">x</button>
-        <button type="button" class="white-key" id="key-4">c</button>
-        <button type="button" class="white-key" id="key-5">v</button>
-        <button type="button" class="white-key" id="key-7">b</button>
-        <button type="button" class="white-key" id="key-9">n</button>
-        <button type="button" class="white-key" id="key-11">m</button>
-        <button type="button" class="white-key" id="key-12">w</button>
-        <button type="button" class="white-key" id="key-14">e</button>
-        <button type="button" class="white-key" id="key-16">r</button>
-        <button type="button" class="white-key" id="key-17">t</button>
-        <button type="button" class="white-key" id="key-19">y</button>
-        <button type="button" class="white-key" id="key-21">u</button>
-        <button type="button" class="white-key" id="key-23">i</button>
+        <!-- <button type="button" class="white-key" id="key-0"></button>
+        <button type="button" class="white-key" id="key-2"></button>
+        <button type="button" class="white-key" id="key-4"></button>
+        <button type="button" class="white-key" id="key-5"></button>
+        <button type="button" class="white-key" id="key-7"></button>
+        <button type="button" class="white-key" id="key-9"></button>
+        <button type="button" class="white-key" id="key-11"></button>
+        <button type="button" class="white-key" id="key-12"></button>
+        <button type="button" class="white-key" id="key-14"></button>
+        <button type="button" class="white-key" id="key-16"></button>
+        <button type="button" class="white-key" id="key-17"></button>
+        <button type="button" class="white-key" id="key-19"></button>
+        <button type="button" class="white-key" id="key-21"></button>
+        <div class="white-key" id="key-23"></div> -->
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
+        <div class="white-key" ></div>
       </div>
 
-      <!-- Now we draw the black keys, so they appear on top of the white keys
-        (in a web page, things included later are normally shown on top of things included earlier) -->
       <div class="black-keys">
         <div class="spacer">&nbsp;</div>
-        <button type="button" class="black-key" id="key-1">s</button>
-        <div class="spacer">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <button type="button" class="black-key" id="key-3">d</button>
+        <button type="button" class="black-key" id="key-1"></button>
+        <div class="spacer3">&nbsp;</div>
+        <button type="button" class="black-key" id="key-3"></button>
         <div class="spacer">&nbsp;</div>
         <div class="spacer">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <button type="button" class="black-key" id="key-6">g</button>
-        <div class="spacer">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <button type="button" class="black-key" id="key-8">h</button>
-        <div class="spacer">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <button type="button" class="black-key" id="key-10">j</button>
+        <div class="widespacer">&nbsp;</div>
+        <button type="button" class="black-key" id="key-6"></button>
+        <div class="spacer3">&nbsp;</div>
+        <button type="button" class="black-key" id="key-8"></button>
+        <div class="spacer3">&nbsp;</div>
+        <button type="button" class="black-key" id="key-10"></button>
         <div class="spacer">&nbsp;</div>
         <div class="spacer">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <button type="button" class="black-key" id="key-13">3</button>
-        <div class="spacer">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <button type="button" class="black-key" id="key-15">4</button>
+        <div class="widespacer">&nbsp;</div>
+        <button type="button" class="black-key" id="key-13"></button>
+        <div class="spacer3">&nbsp;</div>
+        <button type="button" class="black-key" id="key-15"></button>
         <div class="spacer">&nbsp;</div>
         <div class="spacer">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <button type="button" class="black-key" id="key-18">6</button>
-        <div class="spacer">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <button type="button" class="black-key" id="key-20">7</button>
-        <div class="spacer">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <div class="spacer2">&nbsp;</div>
-        <button type="button" class="black-key" id="key-22">8</button>
+        <div class="widespacer">&nbsp;</div>
+        <button type="button" class="black-key" id="key-18"></button>
+        <div class="spacer3">&nbsp;</div>
+        <button type="button" class="black-key" id="key-20"></button>
+        <div class="spacer3">&nbsp;</div>
+        <button type="button" class="black-key" id="key-22"></button>
       </div>
     </div>
+
+    <!-- Horizontal Timeline Control -->
     <div class="row">
       <div class="col-4">
-
         <div class="slidecontainer">
           <input type="range" min="1" max="100" value="50" class="slider" id="horizontal-slide">
         </div>
-
       </div>
     </div>
-    <br>
+    <br>  
     <br>
     <br>
 
+    <!-- MIDI Parameter Control Panel -->
     <div class="row">
       <div class="col-6">
         <h5>Note Control</h5>
@@ -624,7 +538,6 @@
         <h5>Project Setting</h5>
       </div>
     </div>
-
     <div class="row">
       <div class="col-2">
         <label for="pitch-control">Pitch</label>
@@ -658,7 +571,7 @@
         <label for="timesig-control">Time Signature</label>
         <div class="input-group">
           <input class="timesig-control" id="timesig-control" type="number" value="10" min="1" max="120" step="1">
-          <div class="input-group-append"><span class="input-group-text">Image</span></div>
+          <div class="input-group-append"><span class="input-group-text">=<i class="fa-solid fa-music fa-2xl"></i></span></div>
         </div>
       </div>
       <div class="col-2">
@@ -669,28 +582,9 @@
         </div>
       </div>
     </div>
-
- 
-
-
-
-
   </div>
 
-
-
-
-
-
-
-
-
-
-
-
   </div>
-
-
   </div>
 
 </body>
