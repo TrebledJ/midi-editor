@@ -100,6 +100,8 @@ function handleNoteOff(key_number) {
 }
 
 function handlePianoMouseDown(evt) {
+    return; // TODO: temporarily disable this function
+
     // Determine which piano key has been clicked on
     // evt.target tells us which item triggered this function
     // The piano key number is extracted from the key id (0-23)
@@ -247,11 +249,15 @@ $(document).ready(function () {
     const selectBoxes = document.querySelectorAll(".instrument-select");
     selectBoxes.forEach((e) => $(options).appendTo(e));
 
-    $("#upload-file-select")[0].addEventListener("change", function (e) {
+    $("#upload-file-select").on("change", function (e) {
         $("#upload-button").prop("disabled", true);
         if (e.target.files.length > 0 && e.target.files[0]) {
             MidiUtils.loadFromFile(e.target.files[0]);
         }
         $("#upload-button").prop("disabled", false);
+    });
+
+    $("#save-button").on("click", function () {
+        MidiUtils.exportToMidi();
     });
 });
