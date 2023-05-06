@@ -1,0 +1,261 @@
+body {
+    min-width: 590px;
+    min-height: 900px;
+}
+
+.loading {
+    margin: 100px auto;
+    width: 80px;
+    font-size: 150%;
+    text-align: center;
+    line-height: 200%;
+}
+
+.loader {
+    margin: auto;
+    border: 5px solid lightgray;
+    border-top-color: blue;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.container {
+    min-width: 1400px;
+    width: 1400px;
+    margin-top: 10px;
+    display: none;
+}
+
+/* Keyboard Drawing*/
+.keyboard {
+    float: left;
+    position: relative;
+    left: 25px;
+    top: -503px;
+    width: 50px;
+    height: 80px;
+}
+
+.black-keys,
+.white-keys {
+    position: absolute;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.black-key,
+.white-key {
+    float: left;
+    border-radius: 4px;
+}
+
+.black-key:focus,
+.white-key:focus {
+    border: 0 solid lightgray;
+}
+
+.white-key {
+    margin: 0;
+    width: 80px;
+    height: 36px;
+    border: 1px solid gray;
+    background: white;
+
+}
+
+.black-key {
+    margin: 0 30px;
+    width: 50px;
+    height: 21px;
+    padding: 10px;
+    border: 1px solid black;
+    background: black;
+    color: white;
+
+}
+
+.spacer {
+    height: 1px;
+}
+
+.spacer2 {
+    height: 20px;
+}
+
+.spacer3 {
+    height: 42px;
+}
+
+.widespacer {
+    height: 62px;
+}
+
+h3,
+h5 {
+    margin: 0;
+    line-height: 1.5em;
+}
+
+/* Interface Button*/
+.button {
+    display: inline-flex;
+    height: 50px;
+    padding: 0;
+    background: #009578;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.button:hover {
+    background: #008168;
+}
+
+.button:active {
+    background: #006e58;
+}
+
+.button_icon,
+.button_text {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 12px;
+    color: white;
+    height: 100%;
+}
+
+.button_icon {
+    font-size: 1.5em;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* MIDI Track */
+.track {
+    position: relative;
+    background-color: purple;
+    border-color: aquamarine;
+    float: right;
+    left: 50px;
+    height: 500px;
+    width: auto;
+
+}
+
+/* Slider */
+.slidecontainer {
+    width: 875px;
+    margin-left: 40px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+}
+
+.verticalslidercontainer {
+    position: relative;
+    width: 504px;
+    left: 744px;
+    top: 292px;
+    transform: rotate(270deg);
+}
+
+.verticalslider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+}
+
+.verticalslider:hover {
+    opacity: 1;
+}
+
+.verticalslider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: red;
+    cursor: pointer;
+}
+
+.verticalslider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: red;
+    cursor: pointer;
+}
+
+.btn-toolbar {
+    position: relative;
+    left: 380px;
+}
+
+/* Time Display */
+.timedisplay-topbox {
+    position: relative;
+    left: 180px;
+    align-items: center;
+    justify-content: center;
+    width: 370px;
+    height: 50px;
+    background: paleturquoise;
+    border-left: 10px ridge transparent;
+    border-right: 10px ridge transparent;
+    border-top: 10px ridge transparent;
+    border-bottom: 5px inset transparent;
+    border-radius: 10px;
+}

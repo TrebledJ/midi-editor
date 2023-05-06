@@ -186,7 +186,7 @@ function handlePageKeyUp(evt) {
 
 $(document).ready(function () {
     MIDI.loadPlugin({
-        soundfontUrl: "../assets/midi-js/soundfont/",
+        soundfontUrl: "./assets/third-party/midi-js/soundfont/",
         instruments: [
             "trumpet"
             /*
@@ -223,7 +223,8 @@ $(document).ready(function () {
             $(document).keydown(handlePageKeyDown);
             $(document).keyup(handlePageKeyUp);
 
-            $("#instrument-select").on("change", e => {
+            $(".instrument-select").on("change", e => {
+                // TODO: update the correct track
                 console.log(`Changed instrument to ${e.target.value}!`);
                 MIDI.programChange(0, instruments[e.target.value]);
             });
@@ -234,10 +235,11 @@ $(document).ready(function () {
     $("input[type=checkbox]").bootstrapToggle();
 
     // Set up the event handlers
-    $('a.nav-link').on("click", showTab); // Tab clicked
-    $('a.dropdown-item').on("click", changeTabs); // Tab item clicked
+    // $('a.nav-link').on("click", showTab); // Tab clicked
+    // $('a.dropdown-item').on("click", changeTabs); // Tab item clicked
 
-    for (const inst in instruments) {
-        $(`<option value="${inst}">${inst}</option>`).appendTo("#instrument-select");
-    }
+    // Populate instrument-select options with the preset of instruments.
+    const options = Object.keys(instruments).map(inst => `<option value="${inst}">${inst}</option>`).join('');
+    const selectBoxes = document.querySelectorAll('.instrument-select');
+    selectBoxes.forEach(e => $(options).appendTo(e));
 });
