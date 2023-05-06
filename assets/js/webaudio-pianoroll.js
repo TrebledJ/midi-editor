@@ -27,11 +27,11 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
             is:"webaudio-pianoroll",
             properties:{
                 width:              {type:Number, value:980, observer:'layout'},
-                height:             {type:Number, value:475, observer:'layout'},
+                height:             {type:Number, value:528, observer:'layout'},
                 timebase:           {type:Number, value:16, observer:'layout'},
                 editmode:           {type:String, value:"dragpoly"},
                 xrange:             {type:Number, value:16, observer:'layout'},
-                yrange:             {type:Number, value:16, observer:'layout'},
+                yrange:             {type:Number, value:24, observer:'layout'},
                 xoffset:            {type:Number, value:0, observer:'layout'},
                 yoffset:            {type:Number, value:60, observer:'layout'},
                 grid:               {type:Number, value:4},

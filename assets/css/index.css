@@ -43,7 +43,7 @@ body {
     float: left;
     position: relative;
     left: 25px;
-    top: -450px;
+    top: -503px;
     width: 50px;
     height: 80px;
 }
@@ -70,17 +70,16 @@ body {
 .white-key {
     margin: 0;
     width: 80px;
-    height: 10px;
+    height: 36px;
     border: 1px solid gray;
     background: white;
-    padding: 15px;
 
 }
 
 .black-key {
     margin: 0 30px;
     width: 50px;
-    height: 20px;
+    height: 21px;
     padding: 10px;
     border: 1px solid black;
     background: black;
@@ -89,15 +88,19 @@ body {
 }
 
 .spacer {
+    height: 1px;
+}
+
+.spacer2 {
     height: 20px;
 }
 
 .spacer3 {
-    height: 32px;
+    height: 42px;
 }
 
-.widespace {
-    height: 82px;
+.widespacer {
+    height: 62px;
 }
 
 h3,
@@ -198,9 +201,9 @@ h5 {
 
 .verticalslidercontainer {
     position: relative;
-    width: 465px;
-    left: 765px;
-    top: 272px;
+    width: 504px;
+    left: 744px;
+    top: 292px;
     transform: rotate(270deg);
 }
 
