@@ -141,18 +141,18 @@ class MidiUtils {
         midi.header.setTempo(this.bpm);
 
         for (let i = 0; i < PianoRoll.numChannels; i++) {
-            console.log('making track', i);
-
             const track = midi.addTrack();
+
+            const notes = PianoRoll.getChannelNotes(i);
+            if (notes.length === 0) continue; // Skip empty tracks.
+
+            console.log("making track", i);
+
             track.instrument.number = PianoRoll.getChannelInstrumentNumber(i);
             track.channel = i;
 
-            const notes = PianoRoll.getChannelNotes(i);
-            if (notes.length === 0)
-                continue; // Skip empty tracks.
-
             notes.forEach((note) => {
-                console.log('adding note:', JSON.stringify(note));
+                console.log("adding note:", JSON.stringify(note));
                 track.addNote({
                     midi: note.n,
                     velocity: note.v,
@@ -174,7 +174,7 @@ class MidiUtils {
             });
         }
 
-        console.log('final midi object:');
+        console.log("final midi object:");
         console.log(JSON.stringify(midi));
 
         const buf = midi.toArray();
@@ -183,7 +183,7 @@ class MidiUtils {
         });
 
         const url = window.URL.createObjectURL(blob);
-        DOM.downloadURI(url, 'export.mid');
+        DOM.downloadURI(url, "export.mid");
         window.URL.revokeObjectURL(url);
     }
 }
