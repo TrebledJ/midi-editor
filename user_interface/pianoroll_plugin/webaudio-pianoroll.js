@@ -27,12 +27,12 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
             is:"webaudio-pianoroll",
             properties:{
                 width:              {type:Number, value:980, observer:'layout'},
-                height:             {type:Number, value:475, observer:'layout'},
+                height:             {type:Number, value:528, observer:'layout'},
                 timebase:           {type:Number, value:16, observer:'layout'},
                 editmode:           {type:String, value:"dragpoly"},
                 xrange:             {type:Number, value:16, observer:'layout'},
-                yrange:             {type:Number, value:16, observer:'layout'},
-                xoffset:            {type:Number, value:0, observer:'layout'},
+                yrange:             {type:Number, value:24, observer:'layout'},
+                xoffset:            {type:Number, value:12, observer:'layout'},
                 yoffset:            {type:Number, value:60, observer:'layout'},
                 grid:               {type:Number, value:4},
                 snap:               {type:Number, value:1},
@@ -133,6 +133,21 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
 <img id="wac-cursor" class="marker" src="${this.cursorsrc}"/>
 // <div id="wac-menu">abc</div>
 </div>`;
+
+var range = document.querySelector('#horizontal-slider');
+
+// range.addEventListener('input', function() {
+//     console.log("before",this.xoffset);
+//     this.xoffset = this.value;
+//     console.log("after",this.xoffset);
+//     this.redraw();
+//   }, false);
+range.addEventListener('input', this.selfxscroll, false);
+
+
+
+
+
 
         this.sortSequence=function(){
             this.sequence.sort((x,y)=>{return x.t-y.t;});
@@ -755,6 +770,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
             window.addEventListener("touchend",this.bindcancel);
             window.addEventListener("mouseup",this.bindcancel);
             window.addEventListener("contextmenu",this.bindcontextmenu);
+            range.addEventListener('horizontal-slider',this.selfxscroll,false);
 
             if(e.button==2||e.ctrlKey){
                 switch(this.downht.m){
@@ -824,6 +840,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
                     }
                 }
         };
+
         this.pointermove=function(ev) {
             let e;
             this.rcTarget=this.canvas.getBoundingClientRect();
@@ -835,6 +852,7 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
                 clearInterval(this.longtaptimer);
             const pos=this.getPos(e);
             const ht=this.hitTest(pos);
+            console.log()
             switch(this.dragging.o){
             case null:
                 if(this.xscroll)
@@ -889,10 +907,12 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
 
         // Double click --> Delete
         this.ondblclick = function(){
-            console.log("double click")
+            console.log("double click");
             this.delSelectedNote();
             this.redraw();
         };
+
+       
 
         this.cancel= function(ev) {
             let e;
@@ -1165,3 +1185,10 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
     }
     disconnectedCallback(){}
 });
+
+this.selfxscroll = function(){
+    console.log("self x scroll");
+    this.redraw();
+};
+
+
