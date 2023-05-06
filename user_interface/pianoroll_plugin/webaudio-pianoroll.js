@@ -134,12 +134,17 @@ customElements.define("webaudio-pianoroll", class Pianoroll extends HTMLElement 
 // <div id="wac-menu">abc</div>
 </div>`;
 
+<<<<<<< Updated upstream:user_interface/pianoroll_plugin/webaudio-pianoroll.js
 var range = document.querySelector('#horizontal-slider');
+=======
+// var range = document.querySelector('#horizontal-slider');
+>>>>>>> Stashed changes:assets/js/webaudio-pianoroll.js
 
 // range.addEventListener('input', function() {
 //     console.log("before",this.xoffset);
 //     this.xoffset = this.value;
 //     console.log("after",this.xoffset);
+<<<<<<< Updated upstream:user_interface/pianoroll_plugin/webaudio-pianoroll.js
 //     this.redraw();
 //   }, false);
 range.addEventListener('input', this.selfxscroll, false);
@@ -148,6 +153,10 @@ range.addEventListener('input', this.selfxscroll, false);
 
 
 
+=======
+//     // this.redraw();
+//   }, false);
+>>>>>>> Stashed changes:assets/js/webaudio-pianoroll.js
 
         this.sortSequence=function(){
             this.sequence.sort((x,y)=>{return x.t-y.t;});
@@ -686,6 +695,8 @@ range.addEventListener('input', this.selfxscroll, false);
             this.canvas.addEventListener('keydown',this.keydown.bind(this),false);
             this.canvas.addEventListener('DOMMouseScroll',this.wheel.bind(this),false);
             this.canvas.addEventListener('mousewheel',this.wheel.bind(this),false);
+            // var range = this.querySelector('#horizontal-slider');
+            // range.addEventListener('input' , )
             this.setListener(this.canvas,true);
             this.setListener(this.markendimg,true);
             this.setListener(this.markstartimg,true);
@@ -1163,8 +1174,20 @@ range.addEventListener('input', this.selfxscroll, false);
             this.redrawMarker();
             this.redrawAreaSel();
         };
+        let range = document.querySelector('#horizontal-slider');
+
+        range.addEventListener('input', function() {
+            console.log("before",this.xoffset);
+            this.xoffset = this.value;
+            console.log("after",this.xoffset);
+            this.redraw();
+          }, true);
+        
         this.ready();
     }
+
+
+  
     sendEvent(ev){
         let event;
         event=document.createEvent("HTMLEvents");

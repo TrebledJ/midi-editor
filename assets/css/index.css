@@ -149,17 +149,44 @@ h5 {
     background: rgba(0, 0, 0, 0.08);
 }
 
-/* MIDI Track */
+/* Mixer Track */
 .track {
     position: relative;
-    background-color: purple;
-    border-color: aquamarine;
     float: right;
-    left: 50px;
-    height: 500px;
-    width: auto;
+    height: 550px;
+    width: 350px;
 
 }
+.styled-table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+    background-color: #677dc6;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    font-size: 0.9em;
+    color: #8717e2;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+
 
 /* Slider */
 .slidecontainer {
