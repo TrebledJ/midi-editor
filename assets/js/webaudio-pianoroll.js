@@ -36,7 +36,7 @@ customElements.define(
                     editmode: { type: String, value: "dragpoly" },
                     xrange: { type: Number, value: 16, observer: "layout" },
                     yrange: { type: Number, value: 24, observer: "layout" },
-                    xoffset: { type: Number, value: 12, observer: "layout" },
+                    xoffset: { type: Number, value: 0, observer: "layout" },
                     yoffset: { type: Number, value: 60, observer: "layout" },
                     grid: { type: Number, value: 4 },
                     snap: { type: Number, value: 1 },
