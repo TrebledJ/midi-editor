@@ -70,32 +70,32 @@ class MidiUtils {
     static midi = {};
 
     static loadFromFile(file) {
-        console.log("got file:", file.name);
         if (!["wav", "mid"].includes(file.name.split(".").pop())) {
             throw new Error(`Unrecognised file type in '${file}'.`);
         }
 
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            try {
-                if (file.name.endsWith(".wav")) {
-                    // TODO: check
-                    MidiUtils.loadFromWAV(e.target.result);
-                } else if (file.name.endsWith(".mid")) {
-                    MidiUtils.loadFromMIDI(e.target.result);
+        if (file.name.endsWith(".wav")) {
+            // Pass the file on.
+            this.loadFromWAV(file);
+        } else if (file.name.endsWith(".mid")) {
+            // Read MIDI from file.
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    this.loadFromMIDI(e.target.result);
+                } catch (err) {
+                    console.error(err);
+                    alert("Failed to load the file. :(");
                 }
-            } catch (err) {
-                console.error(err);
-                alert("Failed to load the file. :(");
-            }
-        };
-        reader.readAsArrayBuffer(file);
+            };
+            reader.readAsArrayBuffer(file);
+        }
     }
 
     static loadFromMIDI(data) {
         // Parse into object: https://github.com/Tonejs/Midi/tree/master#format.
         const midi = new Midi(data);
-        console.log(JSON.stringify(midi));
+        console.log(midi);
 
         let seq = DOM.roll.sequence;
         seq.splice(0, seq.length); // Delete contents.
@@ -104,7 +104,10 @@ class MidiUtils {
             seq.push({ n: note, t: tick, g: dur, v: vel, ch: channel, f: 0 });
         };
 
-        this.bpm = midi.header.tempos[0].bpm;
+        if (midi.header.tempos.length > 0) {
+            // Update BPM.
+            this.bpm = midi.header.tempos[0].bpm;
+        }
 
         midi.tracks.forEach((track) => {
             const { name, channel, notes, instrument } = track;
@@ -131,9 +134,50 @@ class MidiUtils {
         DOM.roll.redraw();
     }
 
-    static loadFromWAV(wav) {
-        console.log("loadFromWAV is unimplemented.");
+    static loadFromWAV(file) {
+        // console.log("loadFromWAV is unimplemented.");
         // TODO.
+
+        var form = new FormData();
+        form.append("file", file, "audio.wav");
+        this.transformAudioPayload(form);
+    }
+
+    static loadMidiFromResponse(midi) {
+        const byteArray = Uint8Array.from(
+            Array.from(midi).map((c) => c.charCodeAt(0))
+        );
+        const blob = new Blob([byteArray], { type: "audio/mid" });
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            try {
+                MidiUtils.loadFromMIDI(e.target.result);
+            } catch (err) {
+                console.error(err);
+                alert("Failed to load the file. :(");
+            }
+        };
+        reader.readAsArrayBuffer(blob);
+    }
+
+    static transformAudioPayload(payload) {
+        $.ajax({
+            url: "/transform",
+            type: "POST",
+            data: payload,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                const midi = atob(response.midi);
+                console.log(`midi: ${midi.length}B`);
+                console.log("checksum:", response.checksum);
+                MidiUtils.loadMidiFromResponse(midi);
+            },
+            error: function (error) {
+                console.error(error);
+            },
+        });
     }
 
     static exportToMidi() {

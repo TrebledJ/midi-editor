@@ -236,7 +236,7 @@ $(document).ready(function () {
     });
 
     // Enable Bootstrap Toggle
-    $("input[type=checkbox]").bootstrapToggle();
+    // $("input[type=checkbox]").bootstrapToggle();
 
     // Set up the event handlers
     // $('a.nav-link').on("click", showTab); // Tab clicked
@@ -259,5 +259,32 @@ $(document).ready(function () {
 
     $("#save-button").on("click", function () {
         MidiUtils.exportToMidi();
+    });
+
+    $("#record-button").on("click", function () {
+        console.log('Record not implemented yet.')
+        return;
+        
+        console.log("test!");
+        let string = "";
+        for (let i = 0; i < 128; i++) string += String.fromCharCode(i);
+        string += String.fromCharCode(0xe0);
+
+        var form = new FormData();
+        form.append("data", new Blob([string], { type: "text/plain" }));
+
+        $.ajax({
+            url: "/transform",
+            type: "POST",
+            data: form,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.error(error);
+            },
+        });
     });
 });
