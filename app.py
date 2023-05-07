@@ -1,0 +1,82 @@
+from flask import *
+import base64
+import subprocess
+from hashlib import md5
+from binascii import hexlify
+
+
+app = Flask(__name__)
+
+
+def convert():
+    """Converts .wav to .mid."""
+
+
+@app.route('/')
+def get_index():
+    return send_from_directory('.', 'index.html')
+
+@app.route('/favicon.ico')
+def get_icon():
+    return send_from_directory('.', 'favicon.ico')
+
+@app.route('/assets/<path:path>')
+def get_asset(path):
+    return send_from_directory('assets', path)
+
+
+filename = 'tmp/audio.wav'
+filename_out = 'tmp/audio.mid'
+
+
+def audio_to_midi(options=[]):
+    print('converting to midi...')
+    res = subprocess.run(['audio-to-midi', *options, '-o', filename_out, filename])
+    res.check_returncode()
+    print('process finished!')
+
+
+@app.route('/transform', methods=['POST'])
+def convert_audio_to_midi():
+    if 'data' not in request.files and 'file' not in request.files:
+        abort(400)
+
+    if 'data' in request.files:
+        file = request.files['data']
+        file.save(filename)
+    elif 'file' in request.files:
+        file = request.files['file']
+        file.save(filename)
+
+
+    params = [
+        '-b 120', # BPM
+        '-B 1/8', # Beat, time window division
+        '-m', # Condense using max velocity
+        '-s', # Only add loudest note
+        '-a 0.2', # Threshold
+        '-T -12', # Transpose
+    ]
+
+    audio_to_midi(' '.join(params).split())
+
+    with open(filename_out, 'rb') as f:
+        midi = f.read()
+
+    print(f'midi: {len(midi)}B')
+
+    encoded = base64.b64encode(midi)
+    checksum = hexlify(md5(encoded).digest()).decode()
+
+    print(f'checksum: {checksum}')
+
+
+    response = {
+        'midi': encoded.decode(),
+        'checksum': checksum,
+    }
+    return jsonify(response)
+
+
+if __name__ == '__main__':
+    app.run(port=5000, debug=True)
