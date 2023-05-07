@@ -27,7 +27,7 @@
     <script src="./assets/third-party/midi-js/js/util/dom_request_script.js" type="text/javascript"></script>
 
     <!-- Piano roll -->
-    <script src="./assets/js/webaudio-pianoroll.js"></script>
+    <script defer src="./assets/js/webaudio-pianoroll.js"></script>
 
     <!-- Note Control -->
     <!-- <script src="./assets/js/select.js"></script> -->
@@ -120,7 +120,7 @@
 
       <!-- Track Control Panel -->
       <div class="track">
-        <table border="1" style:"block" width="100%" height="100%">
+        <table class="styled-table" width="100%" height="100%">
           <thead>
             <tr>
               <th>Tracks</th>
@@ -236,6 +236,7 @@
           <div class="spacer3">&nbsp;</div>
           <button type="button" class="black-key" id="key-6"></button>
           <div class="widespacer">&nbsp;</div>
+          <div class="spacer">&nbsp;</div>
           <button type="button" class="black-key" id="key-8"></button>
           <div class="spacer3">&nbsp;</div>
           <button type="button" class="black-key" id="key-10"></button>
@@ -258,7 +259,7 @@
       <div class="row">
         <div class="col-4">
           <div class="slidecontainer">
-            <input type="range" min="1" max="100" value="50" class="slider" id="horizontal-slide">
+            <input type="range" min="0" max="20" value="0" step="0.01" class="slider" id="horizontal-slider">
           </div>
         </div>
       </div>
@@ -327,7 +328,6 @@
         </div>
       </div>
     </div>
-
   </body>
 
 </html>
