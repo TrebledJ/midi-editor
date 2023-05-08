@@ -225,15 +225,13 @@ h5 {
     cursor: pointer;
 }
 
-.verticalslidercontainer {
+.scaleslidercontainer {
     position: relative;
-    width: 504px;
-    left: 744px;
-    top: 292px;
-    transform: rotate(270deg);
+    width: 300x;
+    left: 505px;
 }
 
-.verticalslider {
+.scaleslider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
@@ -245,11 +243,11 @@ h5 {
     transition: opacity 0.2s;
 }
 
-.verticalslider:hover {
+.scaleslider:hover {
     opacity: 1;
 }
 
-.verticalslider::-webkit-slider-thumb {
+.scaleslider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 25px;
@@ -258,7 +256,7 @@ h5 {
     cursor: pointer;
 }
 
-.verticalslider::-moz-range-thumb {
+.scaleslider::-moz-range-thumb {
     width: 25px;
     height: 25px;
     background: red;
