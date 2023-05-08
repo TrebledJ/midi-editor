@@ -76,15 +76,27 @@ body {
 }
 
 .black-key {
-    margin: 0 30px;
     width: 50px;
-    height: 21px;
-    padding: 10px;
-    border: 1px solid black;
+    height: 25px;
     background: black;
-    color: white;
-
 }
+
+.key-bb,
+.key-eb {
+    margin-top: 20px;
+}
+
+.key-ab,
+.key-gb,
+.key-db {
+    margin-top: 16px;
+}
+
+.key-gb,
+.key-db {
+    margin-bottom: 20px;
+}
+
 
 .spacer {
     height: 1px;
@@ -156,21 +168,25 @@ h5 {
     width: 350px;
 
 }
+
 .styled-table {
     border-collapse: collapse;
     font-size: 0.9em;
     font-family: sans-serif;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
+
 .styled-table thead tr {
     background-color: #677dc6;
     color: #ffffff;
     text-align: left;
 }
+
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
 }
+
 .styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
     font-size: 0.9em;
