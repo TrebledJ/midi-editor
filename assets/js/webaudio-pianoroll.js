@@ -677,10 +677,16 @@ customElements.define(
                         n: ev.n,
                         dt: ht.t - ev.t,
                     };
+                    let firstNoteEncountered = true;
                     for (let i = 0, l = this.sequence.length; i < l; ++i) {
                         ev = this.sequence[i];
-                        if (ev.f)
+                        if (ev.f) {
                             (ev.on = ev.n), (ev.ot = ev.t), (ev.og = ev.g);
+                            if (firstNoteEncountered && this.onNoteClicked) {
+                                this.onNoteClicked(note);
+                                firstNoteEncountered = false;
+                            }
+                        }
                     }
                     this.redraw();
                 } else if (ht.m == "n") {
@@ -711,7 +717,8 @@ customElements.define(
                 } else if (ht.m == "s" && ht.t >= 0) {
                     this.clearSel();
                     var t = ((ht.t / this.snap) | 0) * this.snap;
-                    this.sequence.push({ t: t, n: ht.n | 0, g: 1, f: 1, ch: this.selectedChannel, v: this.defaultVelocity });
+                    const note = { t: t, n: ht.n | 0, g: 1, f: 1, ch: this.selectedChannel, v: this.defaultVelocity };
+                    this.sequence.push(note);
                     this.dragging = {
                         o: "D",
                         m: "E",
@@ -726,6 +733,8 @@ customElements.define(
                             },
                         ],
                     };
+                    if (this.onNoteClicked)
+                        this.onNoteClicked(note);
                     this.redraw();
                 }
             };
@@ -1518,6 +1527,7 @@ customElements.define(
                 this.redrawAreaSel();
             };
 
+            // Slider for changing the offset of the grid.
             let range = document.querySelector("#horizontal-slider");
 
             range.addEventListener(
@@ -1536,6 +1546,7 @@ customElements.define(
                 this.markend = this.xoffset + this.xrange;
             };
 
+            // Slider for changing the scale of the grid (i.e. number of measures shown).
             let timeduration = document.querySelector("#timeline-control");
 
             timeduration.addEventListener(
@@ -1548,6 +1559,17 @@ customElements.define(
                 })(this),
                 false
             );
+
+            // Update attributes of selected notes.
+            this.updateSelectedAttribute = function(attr, x) {
+                console.log(x, typeof x)
+                this.sequence.forEach(note => {
+                    if (note.f) {
+                        note[attr] = x;
+                    }
+                });
+                this.redraw();
+            };
 
             this.ready();
         }
