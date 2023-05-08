@@ -34,7 +34,7 @@ customElements.define(
                     height: { type: Number, value: 528, observer: "layout" },
                     timebase: { type: Number, value: 16, observer: "layout" },
                     editmode: { type: String, value: "dragpoly" },
-                    xrange: { type: Number, value: 32, observer: "layout" },
+                    xrange: { type: Number, value: 16, observer: "layout" },
                     yrange: { type: Number, value: 24, observer: "layout" },
                     xoffset: { type: Number, value: 0, observer: "layout" },
                     yoffset: { type: Number, value: 60, observer: "layout" },
@@ -95,7 +95,7 @@ customElements.define(
                         type: String,
                         value: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCjxwYXRoIGZpbGw9IiMwYzAiIGQ9Ik0wLDEgMjQsMSAyNCwyMyB6Ii8+DQo8L3N2Zz4NCg==",
                     },
-                    markendoffset: { type: Number, value: 415},
+                    markendoffset: { type: Number, value: -24 },
                     // kbsrc:              {type:String, value:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSI0ODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8cGF0aCBmaWxsPSIjZmZmIiBzdHJva2U9IiMwMDAiIGQ9Ik0wLDAgaDI0djQ4MGgtMjR6Ii8+CjxwYXRoIGZpbGw9IiMwMDAiIGQ9Ik0wLDQwIGgxMnY0MGgtMTJ6IE0wLDEyMCBoMTJ2NDBoLTEyeiBNMCwyMDAgaDEydjQwaC0xMnogTTAsMzIwIGgxMnY0MGgtMTJ6IE0wLDQwMCBoMTJ2NDBoLTEyeiIvPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik0wLDYwIGgyNCBNMCwxNDAgaDI0IE0wLDIyMCBoMjQgTTAsMjgwIGgyNCBNMCwzNDAgaDI0IE0wLDQyMCBoMjQiLz4KPC9zdmc+Cg==", observer:'layout'},
                     kbwidth: { type: Number, value: 80 },
                     loop: { type: Number, value: 0 },
@@ -1524,8 +1524,9 @@ customElements.define(
                 "input",
                 (function (_this) {
                     return function () {
-                        _this.xrange = Number(this.value);
-                        _this.markend = (Number(this.value)/16 * 8);
+                        console.log(this.value);
+                        _this.xrange = Number(this.value) * DOM.roll.timebase;
+                        _this.markend = Number(this.value) * DOM.roll.timebase;
                     };
                 })(this),
                 false

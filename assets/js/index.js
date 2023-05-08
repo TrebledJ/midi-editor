@@ -316,4 +316,7 @@ $(document).ready(function () {
         DOM.roll.stop();
         MIDI.stopAllNotes();
     });
+
+    // Trigger updates as if called.
+    $("#timeline-control")[0].dispatchEvent(new Event('input'));
 });
