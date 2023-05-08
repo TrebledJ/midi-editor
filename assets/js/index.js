@@ -228,34 +228,34 @@ $(document).ready(function () {
             $(document).keyup(handlePageKeyUp);
 
             for (let c = 0; c < DOM.roll.numChannels; c++) {
-                $(`#instrument-select-${c+1}`).on("change", (e) => {
-                    console.log(`Changed instrument on channel ${c} to ${e.target.value}!`);
+                $(`#instrument-select-${c + 1}`).on("change", (e) => {
+                    console.log(
+                        `Changed instrument on channel ${c} to ${e.target.value}!`
+                    );
                     MIDI.programChange(c, Instrument.getNumber(e.target.value));
                 });
             }
         },
     });
 
-
-    DOM.roll.onNoteClicked = function(note) {
-        const {t, n, g, v, ch} = note;
+    DOM.roll.onNoteClicked = function (note) {
+        const { t, n, g, v, ch } = note;
         DOM.ctrl_pitch.val(n);
         DOM.ctrl_duration.val(g);
         DOM.ctrl_velocity.val(v);
     };
 
-    DOM.ctrl_pitch.on('change', () => {
-        DOM.roll.updateSelectedAttribute('n', Number(DOM.ctrl_pitch.val()));
+    DOM.ctrl_pitch.on("change", () => {
+        DOM.roll.updateSelectedAttribute("n", Number(DOM.ctrl_pitch.val()));
     });
 
-    DOM.ctrl_duration.on('change', () => {
-        DOM.roll.updateSelectedAttribute('g', Number(DOM.ctrl_duration.val()));
+    DOM.ctrl_duration.on("change", () => {
+        DOM.roll.updateSelectedAttribute("g", Number(DOM.ctrl_duration.val()));
     });
 
-    DOM.ctrl_velocity.on('change', () => {
-        DOM.roll.updateSelectedAttribute('v', Number(DOM.ctrl_velocity.val()));
+    DOM.ctrl_velocity.on("change", () => {
+        DOM.roll.updateSelectedAttribute("v", Number(DOM.ctrl_velocity.val()));
     });
-
 
     // Enable Bootstrap Toggle
     // $("input[type=checkbox]").bootstrapToggle();
@@ -321,16 +321,19 @@ $(document).ready(function () {
         setInstruments();
 
         const ctx = MIDI.getContext();
-        DOM.roll.play(ctx, function(note) {
-            // t:noteOnTime, g:noteOffTime, n:noteNumber
-            const {t, g, n, v, ch} = note;
-            console.log('Playing note:', JSON.stringify(note));
-            MIDI.noteOn(ch, n, v);
+        DOM.roll.play(
+            ctx,
+            function (note) {
+                // t:noteOnTime, g:noteOffTime, n:noteNumber
+                const { t, g, n, v, ch } = note;
+                console.log("Playing note:", JSON.stringify(note));
+                MIDI.noteOn(ch, n, v);
 
-            // const offDelay = g * MidiUtils.bpm;
-            MIDI.noteOff(ch, n, g - t);
-
-        }, 0);
+                // const offDelay = g * MidiUtils.bpm;
+                MIDI.noteOff(ch, n, g - t);
+            },
+            0
+        );
     });
 
     $("#stop-button").on("click", function () {
@@ -339,5 +342,5 @@ $(document).ready(function () {
     });
 
     // Trigger updates as if called.
-    $("#timeline-control")[0].dispatchEvent(new Event('input'));
+    $("#timeline-control")[0].dispatchEvent(new Event("input"));
 });

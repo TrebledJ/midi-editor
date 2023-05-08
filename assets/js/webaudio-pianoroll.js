@@ -164,8 +164,8 @@ customElements.define(
 <img id="wac-markstart" class="marker" src="${this.markstartsrc}"/>
 <img id="wac-markend" class="marker" src="${this.markendsrc}"/>
 </div>`;
-// <div id="wac-menu">abc</div>
-// {/* <img id="wac-cursor" class="marker" src="${this.cursorsrc}"/> */}
+            // <div id="wac-menu">abc</div>
+            // {/* <img id="wac-cursor" class="marker" src="${this.cursorsrc}"/> */}
 
             this.sortSequence = function () {
                 this.sequence.sort((x, y) => {
@@ -431,7 +431,14 @@ customElements.define(
                             tie = 0;
                         } else
                             this.sequence.push(
-                                (evlast = { t: t, n: n, g: l, f: 0, ch: 0, v: 127 }) // TODO: this just uses default channel/vel.
+                                (evlast = {
+                                    t: t,
+                                    n: n,
+                                    g: l,
+                                    f: 0,
+                                    ch: 0,
+                                    v: 127,
+                                }) // TODO: this just uses default channel/vel.
                             );
                     }
                     t += l;
@@ -571,7 +578,15 @@ customElements.define(
             };
             this.addNote = function (ch, t, n, g, v, f) {
                 if (t >= 0 && n >= 0 && n < 128) {
-                    const ev = { t: t, c: 0x90, n: n, g: g, v: v, f: f, ch: ch };
+                    const ev = {
+                        t: t,
+                        c: 0x90,
+                        n: n,
+                        g: g,
+                        v: v,
+                        f: f,
+                        ch: ch,
+                    };
                     this.sequence.push(ev);
                     this.sortSequence();
                     this.redraw();
@@ -717,7 +732,14 @@ customElements.define(
                 } else if (ht.m == "s" && ht.t >= 0) {
                     this.clearSel();
                     var t = ((ht.t / this.snap) | 0) * this.snap;
-                    const note = { t: t, n: ht.n | 0, g: 1, f: 1, ch: this.selectedChannel, v: this.defaultVelocity };
+                    const note = {
+                        t: t,
+                        n: ht.n | 0,
+                        g: 1,
+                        f: 1,
+                        ch: this.selectedChannel,
+                        v: this.defaultVelocity,
+                    };
                     this.sequence.push(note);
                     this.dragging = {
                         o: "D",
@@ -733,8 +755,7 @@ customElements.define(
                             },
                         ],
                     };
-                    if (this.onNoteClicked)
-                        this.onNoteClicked(note);
+                    if (this.onNoteClicked) this.onNoteClicked(note);
                     this.redraw();
                 }
             };
@@ -1351,8 +1372,7 @@ customElements.define(
                 // Vertical grid light bg.
                 this.ctx.fillStyle = this.colrulerbg2;
                 for (let t = 0; ; t++) {
-                    if (t % this.grid == 0)
-                        continue;
+                    if (t % this.grid == 0) continue;
                     let x =
                         this.stepw * (t - this.xoffset) +
                         this.yruler +
@@ -1561,9 +1581,9 @@ customElements.define(
             );
 
             // Update attributes of selected notes.
-            this.updateSelectedAttribute = function(attr, x) {
-                console.log(x, typeof x)
-                this.sequence.forEach(note => {
+            this.updateSelectedAttribute = function (attr, x) {
+                console.log(x, typeof x);
+                this.sequence.forEach((note) => {
                     if (note.f) {
                         note[attr] = x;
                     }
