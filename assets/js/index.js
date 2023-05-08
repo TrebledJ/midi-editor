@@ -227,11 +227,12 @@ $(document).ready(function () {
             $(document).keydown(handlePageKeyDown);
             $(document).keyup(handlePageKeyUp);
 
-            $(".instrument-select").on("change", (e) => {
-                // TODO: update the correct track
-                console.log(`Changed instrument to ${e.target.value}!`);
-                MIDI.programChange(0, Instruments.getNumber(e.target.value));
-            });
+            for (let c = 0; c < DOM.roll.numChannels; c++) {
+                $(`#instrument-select-${c+1}`).on("change", (e) => {
+                    console.log(`Changed instrument on channel ${c} to ${e.target.value}!`);
+                    MIDI.programChange(c, Instrument.getNumber(e.target.value));
+                });
+            }
         },
     });
 
@@ -262,9 +263,9 @@ $(document).ready(function () {
     });
 
     $("#record-button").on("click", function () {
-        console.log('Record not implemented yet.')
+        console.log("Record not implemented yet.");
         return;
-        
+
         console.log("test!");
         let string = "";
         for (let i = 0; i < 128; i++) string += String.fromCharCode(i);
@@ -286,5 +287,33 @@ $(document).ready(function () {
                 console.error(error);
             },
         });
+    });
+
+    function setInstruments() {
+        for (let c = 0; c < DOM.roll.numChannels; c++) {
+            MIDI.setVolume(c, DOM.roll.ch(c).volume);
+            MIDI.programChange(c, DOM.roll.ch(c).instrumentNum);
+        }
+    }
+
+    $("#play-button").on("click", function () {
+        setInstruments();
+
+        const ctx = MIDI.getContext();
+        DOM.roll.play(ctx, function(note) {
+            // t:noteOnTime, g:noteOffTime, n:noteNumber
+            const {t, g, n, v, ch} = note;
+            console.log('Playing note:', JSON.stringify(note));
+            MIDI.noteOn(ch, n, v);
+
+            // const offDelay = g * MidiUtils.bpm;
+            MIDI.noteOff(ch, n, g - t);
+
+        }, 0);
+    });
+
+    $("#stop-button").on("click", function () {
+        DOM.roll.stop();
+        MIDI.stopAllNotes();
     });
 });
