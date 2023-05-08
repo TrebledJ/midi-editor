@@ -1512,11 +1512,18 @@ customElements.define(
                 (function (_this) {
                     return function () {
                         _this.xoffset = Number(this.value);
-                    
+                        _this.updateMarkers();
                     };
                 })(this),
                 false
             );
+
+
+            this.updateMarkers = function() {
+                this.markstart = this.xoffset;
+                this.markend = this.xoffset + this.xrange;
+            };
+
 
             let timeduration = document.querySelector("#timeline-control");
 
@@ -1524,9 +1531,8 @@ customElements.define(
                 "input",
                 (function (_this) {
                     return function () {
-                        console.log(this.value);
                         _this.xrange = Number(this.value) * DOM.roll.timebase;
-                        _this.markend = Number(this.value) * DOM.roll.timebase;
+                        _this.updateMarkers();
                     };
                 })(this),
                 false
