@@ -8,10 +8,6 @@ from binascii import hexlify
 app = Flask(__name__)
 
 
-def convert():
-    """Converts .wav to .mid."""
-
-
 @app.route('/')
 def get_index():
     return send_from_directory('.', 'index.html')
@@ -79,4 +75,8 @@ def convert_audio_to_midi():
 
 
 if __name__ == '__main__':
+    # To watch and reload when other files are changed:
+    # import os
+    # listall = lambda dir: [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(dir)) for f in fn]
+
     app.run(port=5000, debug=True)
