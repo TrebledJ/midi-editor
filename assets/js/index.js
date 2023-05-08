@@ -227,11 +227,12 @@ $(document).ready(function () {
             $(document).keydown(handlePageKeyDown);
             $(document).keyup(handlePageKeyUp);
 
-            $(".instrument-select").on("change", (e) => {
-                // TODO: update the correct track
-                console.log(`Changed instrument to ${e.target.value}!`);
-                MIDI.programChange(0, Instrument.getNumber(e.target.value));
-            });
+            for (let c = 0; c < DOM.roll.numChannels; c++) {
+                $(`#instrument-select-${c+1}`).on("change", (e) => {
+                    console.log(`Changed instrument on channel ${c} to ${e.target.value}!`);
+                    MIDI.programChange(c, Instrument.getNumber(e.target.value));
+                });
+            }
         },
     });
 
