@@ -240,6 +240,8 @@ customElements.define(
                                 t: this.time1,
                                 g: this.time1 + gmax * this.tick2time,
                                 n: e.n,
+                                v: e.v,
+                                ch: e.ch,
                             };
                             if (this.playcallback) this.playcallback(cbev);
                             e = this.sequence[++this.index1];
@@ -428,7 +430,7 @@ customElements.define(
                             tie = 0;
                         } else
                             this.sequence.push(
-                                (evlast = { t: t, n: n, g: l, f: 0 })
+                                (evlast = { t: t, n: n, g: l, f: 0, ch: 0, v: 127 }) // TODO: this just uses default channel/vel.
                             );
                     }
                     t += l;
@@ -566,9 +568,9 @@ customElements.define(
                 ht.m = "s";
                 return ht;
             };
-            this.addNote = function (t, n, g, v, f) {
+            this.addNote = function (ch, t, n, g, v, f) {
                 if (t >= 0 && n >= 0 && n < 128) {
-                    const ev = { t: t, c: 0x90, n: n, g: g, v: v, f: f };
+                    const ev = { t: t, c: 0x90, n: n, g: g, v: v, f: f, ch: ch };
                     this.sequence.push(ev);
                     this.sortSequence();
                     this.redraw();
@@ -708,7 +710,7 @@ customElements.define(
                 } else if (ht.m == "s" && ht.t >= 0) {
                     this.clearSel();
                     var t = ((ht.t / this.snap) | 0) * this.snap;
-                    this.sequence.push({ t: t, n: ht.n | 0, g: 1, f: 1 });
+                    this.sequence.push({ t: t, n: ht.n | 0, g: 1, f: 1, ch: this.selectedChannel, v: this.defaultVelocity });
                     this.dragging = {
                         o: "D",
                         m: "E",
@@ -1500,7 +1502,7 @@ customElements.define(
                 }
                 this.redrawYRuler();
                 this.redrawXRuler();
-                this.redrawMarker();
+                // this.redrawMarker();
                 this.redrawAreaSel();
             };
 

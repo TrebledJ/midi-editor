@@ -1,21 +1,86 @@
+class Channel {
+    constructor(id) {
+        this.id = id;
+    }
+
+    get instrument() {
+        return $(`#instrument-select-${this.id}`)[0];
+    }
+
+    get instrumentNum() {
+        return Instrument.getNumber(
+            $(`#instrument-select-${this.id}`)[0].value
+        );
+    }
+
+    set instrument(val) {
+        if (typeof val === "number") {
+            val = Instrument.getNameByNumber(val);
+            if (val === "") {
+                // Option doesn't exist; set to default instead.
+                val = Instrument.default;
+            }
+        }
+        $(`#instrument-select-${this.id}`)[0].value = val;
+    }
+
+    get volume() {
+        return $(`#instrument-volume-${this.id}`)[0].value;
+    }
+
+    set volume(val) {
+        $(`#instrument-volume-${this.id}`)[0].value = val;
+    }
+
+    get visible() {
+        return $(`#instrument-show-${this.id}`)[0].value;
+    }
+
+    set visible(val) {
+        $(`#instrument-show-${this.id}`)[0].value = val;
+    }
+
+    get mute() {
+        return $(`#instrument-mute-${this.id}`)[0].value;
+    }
+
+    set mute(val) {
+        $(`#instrument-mute-${this.id}`)[0].value = val;
+    }
+
+    get solo() {
+        return $(`#instrument-solo-${this.id}`)[0].value;
+    }
+
+    set solo(val) {
+        $(`#instrument-solo-${this.id}`)[0].value = val;
+    }
+}
+
 class DOM {
     static roll = $("webaudio-pianoroll")[0];
 
-    // Sets the instrument of the track number to the MIDI instrumentNum (0-127).
-    static setTrackInstrument(trackNum, instrumentNum) {
-        const sel = $(`#instrument-select-${trackNum}`)[0];
-        sel.value = Instrument.getNameByNumber(instrumentNum);
-        if (sel.value === "") {
-            // Option doesn't exist; set to default instead.
-            sel.value = Instrument.default;
-        }
+    static get selectedChannel() {
+        return 0; // TODO: be able to dynamically select channel
     }
 
-    // Return the instrument number.
-    static getTrackInstrument(trackNum) {
-        return Instrument.getNumber(
-            $(`#instrument-select-${trackNum}`)[0].value
-        );
+    static {
+        // Monkeypatch roll.
+
+        // TODO: expand channels? dynamic?
+        this.roll.numChannels = 5;
+
+        this.roll.ch = function (id) {
+            return new Channel(id + 1);
+        };
+
+        this.roll.getChannelNotes = function (c) {
+            // Filtering is based on 0-indexed.
+            return this.sequence.filter((note) => note.ch === c);
+        };
+
+        this.roll.selectedChannel = 0;
+        this.roll.defaultVelocity = 127;
     }
 
     // Download a URI to a target filename.
@@ -123,7 +188,7 @@ class MidiUtils {
                 );
             });
 
-            DOM.setTrackInstrument(channel + 1, instrument.number);
+            DOM.channel(channel + 1).instrument = instrument.number;
 
             const endTicks = track.endOfTrackTicks;
         });
@@ -184,15 +249,15 @@ class MidiUtils {
         let midi = new Midi();
         midi.header.setTempo(this.bpm);
 
-        for (let i = 0; i < PianoRoll.numChannels; i++) {
+        for (let i = 0; i < DOM.roll.numChannels; i++) {
             const track = midi.addTrack();
 
-            const notes = PianoRoll.getChannelNotes(i);
+            const notes = DOM.roll.getChannelNotes(i);
             if (notes.length === 0) continue; // Skip empty tracks.
 
             console.log("making track", i);
 
-            track.instrument.number = PianoRoll.getChannelInstrumentNumber(i);
+            track.instrument.number = DOM.roll.ch(i).instrumentNum;
             track.channel = i;
 
             notes.forEach((note) => {
@@ -231,33 +296,3 @@ class MidiUtils {
         window.URL.revokeObjectURL(url);
     }
 }
-
-class PianoRoll {
-    // Channels here are 0-indexed.
-
-    // Get an array of notes from channel c.
-    static getChannelNotes(c) {
-        return DOM.roll.sequence.filter((note) => note.ch == c);
-    }
-
-    static getChannelInstrumentNumber(c) {
-        return DOM.getTrackInstrument(c + 1);
-    }
-
-    static hideChannelNotes(c) {
-        // TODO
-    }
-
-    static showChannelNotes(c) {
-        // TODO
-    }
-
-    static get numChannels() {
-        // TODO: expand? dynamic?
-        return 5;
-    }
-}
-
-// $(function () {
-
-// });

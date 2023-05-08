@@ -262,9 +262,9 @@ $(document).ready(function () {
     });
 
     $("#record-button").on("click", function () {
-        console.log('Record not implemented yet.')
+        console.log("Record not implemented yet.");
         return;
-        
+
         console.log("test!");
         let string = "";
         for (let i = 0; i < 128; i++) string += String.fromCharCode(i);
@@ -286,5 +286,34 @@ $(document).ready(function () {
                 console.error(error);
             },
         });
+    });
+
+    function setInstruments() {
+        for (let c = 0; c < DOM.roll.numChannels; c++) {
+            const ins = DOM.roll.ch(c).instrumentNum;
+            MIDI.setVolume(c, DOM.roll.ch(c).volume);
+            MIDI.programChange(c, ins);
+        }
+    }
+
+    $("#play-button").on("click", function () {
+        setInstruments();
+
+        const ctx = MIDI.getContext();
+        DOM.roll.play(ctx, function(note) {
+            // t:noteOnTime, g:noteOffTime, n:noteNumber
+            const {t, g, n, v, ch} = note;
+            console.log('Playing note:', JSON.stringify(note));
+            MIDI.noteOn(ch, n, v);
+
+            // const offDelay = g * MidiUtils.bpm;
+            MIDI.noteOff(ch, n, g - t);
+
+        }, 0);
+    });
+
+    $("#stop-button").on("click", function () {
+        DOM.roll.stop();
+        MIDI.stopAllNotes();
     });
 });
