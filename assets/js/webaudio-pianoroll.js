@@ -1502,7 +1502,7 @@ customElements.define(
                 }
                 this.redrawYRuler();
                 this.redrawXRuler();
-                // this.redrawMarker();
+                this.redrawMarker();
                 this.redrawAreaSel();
             };
 
