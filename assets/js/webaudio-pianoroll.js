@@ -34,7 +34,7 @@ customElements.define(
                     height: { type: Number, value: 528, observer: "layout" },
                     timebase: { type: Number, value: 16, observer: "layout" },
                     editmode: { type: String, value: "dragpoly" },
-                    xrange: { type: Number, value: 16, observer: "layout" },
+                    xrange: { type: Number, value: 32, observer: "layout" },
                     yrange: { type: Number, value: 24, observer: "layout" },
                     xoffset: { type: Number, value: 0, observer: "layout" },
                     yoffset: { type: Number, value: 60, observer: "layout" },
@@ -1475,7 +1475,6 @@ customElements.define(
                 this.steph = this.sheight / this.yrange;
                 this.redrawGrid();
                 const l = this.sequence.length;
-                console.log("redraw()");
                 for (let s = 0; s < l; ++s) {
                     const ev = this.sequence[s];
                     if (ev.f) this.ctx.fillStyle = this.colnotesel;
@@ -1510,10 +1509,7 @@ customElements.define(
                 "input",
                 (function (_this) {
                     return function () {
-                        console.log("before", _this.xoffset);
-                        _this.xoffset = this.value;
-                        console.log("after", _this.xoffset);
-                        _this.redraw();
+                        _this.xoffset = Number(this.value);
                     };
                 })(this),
                 false
@@ -1543,7 +1539,3 @@ customElements.define(
     }
 );
 
-this.selfxscroll = function () {
-    console.log("self x scroll");
-    this.redraw();
-};
