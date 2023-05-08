@@ -236,6 +236,27 @@ $(document).ready(function () {
         },
     });
 
+
+    DOM.roll.onNoteClicked = function(note) {
+        const {t, n, g, v, ch} = note;
+        DOM.ctrl_pitch.val(n);
+        DOM.ctrl_duration.val(g);
+        DOM.ctrl_velocity.val(v);
+    };
+
+    DOM.ctrl_pitch.on('change', () => {
+        DOM.roll.updateSelectedAttribute('n', Number(DOM.ctrl_pitch.val()));
+    });
+
+    DOM.ctrl_duration.on('change', () => {
+        DOM.roll.updateSelectedAttribute('g', Number(DOM.ctrl_duration.val()));
+    });
+
+    DOM.ctrl_velocity.on('change', () => {
+        DOM.roll.updateSelectedAttribute('v', Number(DOM.ctrl_velocity.val()));
+    });
+
+
     // Enable Bootstrap Toggle
     // $("input[type=checkbox]").bootstrapToggle();
 

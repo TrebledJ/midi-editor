@@ -59,6 +59,9 @@ class Channel {
 
 class DOM {
     static roll = $("webaudio-pianoroll")[0];
+    static ctrl_pitch = $("#pitch-control");
+    static ctrl_duration = $("#duration-control");
+    static ctrl_velocity = $("#velocity-control");
 
     static get selectedChannel() {
         return 0; // TODO: be able to dynamically select channel
