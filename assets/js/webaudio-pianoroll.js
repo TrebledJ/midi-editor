@@ -163,9 +163,9 @@ customElements.define(
 <div id="wac-kb"></div>
 <img id="wac-markstart" class="marker" src="${this.markstartsrc}"/>
 <img id="wac-markend" class="marker" src="${this.markendsrc}"/>
-<img id="wac-cursor" class="marker" src="${this.cursorsrc}"/>
-// <div id="wac-menu">abc</div>
 </div>`;
+// <div id="wac-menu">abc</div>
+// {/* <img id="wac-cursor" class="marker" src="${this.cursorsrc}"/> */}
 
             this.sortSequence = function () {
                 this.sequence.sort((x, y) => {
@@ -868,8 +868,8 @@ customElements.define(
                 this.kbimg = this.elem.children[1];
                 this.markstartimg = this.elem.children[2];
                 this.markendimg = this.elem.children[3];
-                this.cursorimg = this.elem.children[4];
-                this.menu = this.elem.children[5];
+                // this.cursorimg = this.elem.children[4];
+                // this.menu = this.elem.children[5];
                 this.rcMenu = { x: 0, y: 0, width: 0, height: 0 };
                 this.lastx = 0;
                 this.lasty = 0;
@@ -896,8 +896,8 @@ customElements.define(
                 this.setListener(this.canvas, true);
                 this.setListener(this.markendimg, true);
                 this.setListener(this.markstartimg, true);
-                this.setListener(this.cursorimg, true);
-                this.setListener(this.menu, false);
+                // this.setListener(this.cursorimg, true);
+                // this.setListener(this.menu, false);
                 this.sequence = [];
                 this.dragging = { o: null };
                 this.kbimg.style.height = this.sheight + "px";
@@ -1039,15 +1039,15 @@ customElements.define(
                         ev.preventDefault();
                         ev.stopPropagation();
                         return false;
-                    case this.cursorimg:
-                        this.dragging = {
-                            o: "P",
-                            x: this.downpos.x,
-                            m: this.cursor,
-                        };
-                        ev.preventDefault();
-                        ev.stopPropagation();
-                        return false;
+                    // case this.cursorimg:
+                    //     this.dragging = {
+                    //         o: "P",
+                    //         x: this.downpos.x,
+                    //         m: this.cursor,
+                    //     };
+                    //     ev.preventDefault();
+                    //     ev.stopPropagation();
+                    //     return false;
                 }
                 this.dragging = {
                     o: null,
@@ -1294,11 +1294,11 @@ customElements.define(
             };
             this.redrawMarker = function () {
                 if (!this.initialized) return;
-                const cur =
-                    (this.cursor - this.xoffset) * this.stepw +
-                    this.yruler +
-                    this.kbwidth;
-                this.cursorimg.style.left = cur + this.cursoroffset + "px";
+                // const cur =
+                //     (this.cursor - this.xoffset) * this.stepw +
+                //     this.yruler +
+                //     this.kbwidth;
+                // this.cursorimg.style.left = cur + this.cursoroffset + "px";
                 const start =
                     (this.markstart - this.xoffset) * this.stepw +
                     this.yruler +
