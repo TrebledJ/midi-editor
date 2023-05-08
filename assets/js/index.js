@@ -230,7 +230,7 @@ $(document).ready(function () {
             $(".instrument-select").on("change", (e) => {
                 // TODO: update the correct track
                 console.log(`Changed instrument to ${e.target.value}!`);
-                MIDI.programChange(0, Instruments.getNumber(e.target.value));
+                MIDI.programChange(0, Instrument.getNumber(e.target.value));
             });
         },
     });
@@ -290,9 +290,8 @@ $(document).ready(function () {
 
     function setInstruments() {
         for (let c = 0; c < DOM.roll.numChannels; c++) {
-            const ins = DOM.roll.ch(c).instrumentNum;
             MIDI.setVolume(c, DOM.roll.ch(c).volume);
-            MIDI.programChange(c, ins);
+            MIDI.programChange(c, DOM.roll.ch(c).instrumentNum);
         }
     }
 

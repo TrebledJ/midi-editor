@@ -98,9 +98,9 @@ class DOM {
 class Instrument {
     static default = "Grand Piano";
     static instruments = [
-        ["Trumpet", 56],
         ["Grand Piano", 0],
         ["Electric Piano", 5],
+        ["Trumpet", 56],
         ["Organ", 19],
         ["Acoustic Guitar", 24],
         ["Electric Guitar", 26],
@@ -141,13 +141,13 @@ class MidiUtils {
 
         if (file.name.endsWith(".wav")) {
             // Pass the file on.
-            this.loadFromWAV(file);
+            MidiUtils.loadFromWAV(file);
         } else if (file.name.endsWith(".mid")) {
             // Read MIDI from file.
             var reader = new FileReader();
             reader.onload = function (e) {
                 try {
-                    this.loadFromMIDI(e.target.result);
+                    MidiUtils.loadFromMIDI(e.target.result);
                 } catch (err) {
                     console.error(err);
                     alert("Failed to load the file. :(");
@@ -188,7 +188,7 @@ class MidiUtils {
                 );
             });
 
-            DOM.channel(channel + 1).instrument = instrument.number;
+            DOM.roll.ch(channel).instrument = instrument.number;
 
             const endTicks = track.endOfTrackTicks;
         });
@@ -200,9 +200,6 @@ class MidiUtils {
     }
 
     static loadFromWAV(file) {
-        // console.log("loadFromWAV is unimplemented.");
-        // TODO.
-
         var form = new FormData();
         form.append("file", file, "audio.wav");
         this.transformAudioPayload(form);
