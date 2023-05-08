@@ -77,6 +77,7 @@ customElements.define(
                     colnoteborder: { type: String, value: "#000" },
                     colnoteselborder: { type: String, value: "#fff" },
                     colrulerbg: { type: String, value: "#666" },
+                    colrulerbg2: { type: String, value: "#999" },
                     colrulerfg: { type: String, value: "#fff" },
                     colrulerborder: { type: String, value: "#000" },
                     colselarea: { type: String, value: "rgba(0,0,0,0.3)" },
@@ -1338,6 +1339,18 @@ customElements.define(
                     this.ctx.fillRect(x | 0, this.xruler, 1, this.sheight);
                     if (x >= this.width) break;
                 }
+                // Vertical grid light bg.
+                this.ctx.fillStyle = this.colrulerbg2;
+                for (let t = 0; ; t++) {
+                    if (t % this.grid == 0)
+                        continue;
+                    let x =
+                        this.stepw * (t - this.xoffset) +
+                        this.yruler +
+                        this.kbwidth;
+                    this.ctx.fillRect(x | 0, this.xruler, 1, this.sheight);
+                    if (x >= this.width) break;
+                }
             };
             this.semiflag = [6, 1, 0, 1, 0, 2, 1, 0, 1, 0, 1, 0];
             this.redrawXRuler = function () {
@@ -1518,12 +1531,10 @@ customElements.define(
                 false
             );
 
-
-            this.updateMarkers = function() {
+            this.updateMarkers = function () {
                 this.markstart = this.xoffset;
                 this.markend = this.xoffset + this.xrange;
             };
-
 
             let timeduration = document.querySelector("#timeline-control");
 
@@ -1561,4 +1572,3 @@ customElements.define(
         disconnectedCallback() {}
     }
 );
-
