@@ -451,14 +451,15 @@ $(document).ready(function () {
     const selectBoxes = document.querySelectorAll(".instrument-select");
     selectBoxes.forEach((e) => $(options).appendTo(e));
 
-    $("#upload-button").on("click", function () {
-        const input = DOM.selectFile([".mid", ".wav"]);
+    $("#upload-file-select").on("change", function (e) {
+        const input = e.target;
         $("#upload-button").prop("disabled", true);
-        if (input.files.length > 0 && input.files[0]) {
+        if (input.files.length === 0) {
+            alert("No files were selected!");
+        } else if (input.files[0]) {
             MidiUtils.loadFromFile(input.files[0]);
         }
         $("#upload-button").prop("disabled", false);
-        input.remove();
     });
 
     $("#save-button").on("click", function () {

@@ -101,6 +101,7 @@ class DOM {
         input.style.display = "none";
         document.body.appendChild(input);
         input.click();
+        return input;
     }
 }
 
