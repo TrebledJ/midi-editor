@@ -311,6 +311,7 @@ $(document).ready(function () {
         $("#pitch-control").val(n);
         $("#duration-control").val(g);
         $("#velocity-control").val(v);
+        $("#channel-control").val(ch + 1);
     };
 
     $("#pitch-control").on("change", () => {
@@ -337,7 +338,7 @@ $(document).ready(function () {
     $("#channel-control").on("change", () => {
         DOM.roll.updateSelectedAttribute(
             "ch",
-            Number($("#channel-control").val())
+            Number($("#channel-control").val() - 1)
         );
     });
 

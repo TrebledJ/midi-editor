@@ -138,7 +138,18 @@ h5 {
 /* Mixer Track */
 #mixer-table tbody tr td:first-child,
 #mixer-table tbody tr td:has(input) {
+    width: 0.1%;
+    white-space: nowrap;
     text-align: center;
+}
+
+#mixer-table tbody tr td:nth-child(2) {
+    width: 100%;
+}
+
+#mixert-table thead tr th {
+    width: 0.1%;
+    white-space: nowrap;
 }
 
 .instrument-select,
