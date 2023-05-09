@@ -238,6 +238,19 @@ $(document).ready(function () {
         },
     });
 
+    function updateRollWidth() {
+        const colWidth = Math.max(
+            $(document).width() * 0.7,
+            $(".main-container").width()
+        );
+        const w = colWidth - DOM.roll.yruler - DOM.roll.kbwidth;
+        console.log("resizing to width", w);
+        DOM.roll.width = w;
+    }
+
+    $(window).resize(updateRollWidth);
+    updateRollWidth();
+
     DOM.roll.onNoteClicked = function (note) {
         const { t, n, g, v, ch } = note;
         DOM.ctrl_pitch.val(n);
@@ -271,12 +284,14 @@ $(document).ready(function () {
     const selectBoxes = document.querySelectorAll(".instrument-select");
     selectBoxes.forEach((e) => $(options).appendTo(e));
 
-    $("#upload-file-select").on("change", function (e) {
+    $("#upload-button").on("click", function () {
+        const input = DOM.selectFile(['.mid', '.wav']);
         $("#upload-button").prop("disabled", true);
-        if (e.target.files.length > 0 && e.target.files[0]) {
-            MidiUtils.loadFromFile(e.target.files[0]);
+        if (input.files.length > 0 && input.files[0]) {
+            MidiUtils.loadFromFile(input.files[0]);
         }
         $("#upload-button").prop("disabled", false);
+        input.remove();
     });
 
     $("#save-button").on("click", function () {
@@ -342,5 +357,5 @@ $(document).ready(function () {
     });
 
     // Trigger updates as if called.
-    $("#timeline-control")[0].dispatchEvent(new Event("input"));
+    $("#timebase-control")[0].dispatchEvent(new Event("input"));
 });

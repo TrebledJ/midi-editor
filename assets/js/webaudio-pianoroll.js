@@ -30,7 +30,7 @@ customElements.define(
             this.module = {
                 is: "webaudio-pianoroll",
                 properties: {
-                    width: { type: Number, value: 980, observer: "layout" },
+                    width: { type: Number, value: 900, observer: "layout" },
                     height: { type: Number, value: 528, observer: "layout" },
                     timebase: { type: Number, value: 16, observer: "layout" },
                     editmode: { type: String, value: "dragpoly" },
@@ -146,21 +146,9 @@ customElements.define(
     top:0px;
     cursor:ew-resize;
 }
-#wac-kb{
-    float:left;
-    position:relative;
-    left:0px;
-    top:0px;
-    width:100px;
-    height:100%;
-    background: repeat-y;
-    background-size:100% calc(100%*12/16);
-    background-position:left bottom;
-}
 </style>
 <div class="wac-body" id="wac-body" touch-action="none">
 <canvas id="wac-pianoroll" touch-action="none" tabindex="0"></canvas>
-<div id="wac-kb"></div>
 <img id="wac-markstart" class="marker" src="${this.markstartsrc}"/>
 <img id="wac-markend" class="marker" src="${this.markendsrc}"/>
 </div>`;
@@ -893,11 +881,9 @@ customElements.define(
                 this.elem = root.childNodes[2];
                 this.proll = this.elem.children[0];
                 this.canvas = this.elem.children[0];
-                this.kb = this.elem.children[1];
                 this.ctx = this.canvas.getContext("2d");
-                this.kbimg = this.elem.children[1];
-                this.markstartimg = this.elem.children[2];
-                this.markendimg = this.elem.children[3];
+                this.markstartimg = this.elem.children[1];
+                this.markendimg = this.elem.children[2];
                 // this.cursorimg = this.elem.children[4];
                 // this.menu = this.elem.children[5];
                 this.rcMenu = { x: 0, y: 0, width: 0, height: 0 };
@@ -930,8 +916,6 @@ customElements.define(
                 // this.setListener(this.menu, false);
                 this.sequence = [];
                 this.dragging = { o: null };
-                this.kbimg.style.height = this.sheight + "px";
-                this.kbimg.style.backgroundSize = this.steph * 12 + "px";
                 this.layout();
                 this.initialized = 1;
                 this.redraw();
@@ -1018,7 +1002,7 @@ customElements.define(
                 window.addEventListener("mouseup", this.bindcancel);
                 window.addEventListener("contextmenu", this.bindcontextmenu);
                 range.addEventListener(
-                    "horizontal-slider",
+                    "offset-control",
                     this.selfxscroll,
                     false
                 );
@@ -1304,6 +1288,7 @@ customElements.define(
             // Note Window
             this.layout = function () {
                 if (typeof this.kbwidth == "undefined") return;
+                console.log('layout');
                 const proll = this.proll;
                 const bodystyle = this.body.style;
                 if (this.bgsrc)
@@ -1443,13 +1428,13 @@ customElements.define(
                         );
                     }
                 }
-                this.kbimg.style.top = this.xruler + "px";
-                this.kbimg.style.left = this.yruler + "px";
-                this.kbimg.style.width = this.kbwidth + "px";
-                this.kbimg.style.backgroundSize =
-                    "100% " + this.steph * 12 + "px";
-                this.kbimg.style.backgroundPosition =
-                    "0px " + (this.sheight + this.steph * this.yoffset) + "px";
+                // this.kbimg.style.top = this.xruler + "px";
+                // this.kbimg.style.left = this.yruler + "px";
+                // this.kbimg.style.width = this.kbwidth + "px";
+                // this.kbimg.style.backgroundSize =
+                //     "100% " + this.steph * 12 + "px";
+                // this.kbimg.style.backgroundPosition =
+                //     "0px " + (this.sheight + this.steph * this.yoffset) + "px";
             };
             this.redrawKeyboard = function () {
                 if (this.yruler) {
@@ -1548,7 +1533,7 @@ customElements.define(
             };
 
             // Slider for changing the offset of the grid.
-            let range = document.querySelector("#horizontal-slider");
+            let range = document.querySelector("#offset-control");
 
             range.addEventListener(
                 "input",
@@ -1567,7 +1552,7 @@ customElements.define(
             };
 
             // Slider for changing the scale of the grid (i.e. number of measures shown).
-            let timeduration = document.querySelector("#timeline-control");
+            let timeduration = document.querySelector("#timebase-control");
 
             timeduration.addEventListener(
                 "input",

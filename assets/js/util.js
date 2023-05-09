@@ -96,6 +96,15 @@ class DOM {
         a.click();
         a.remove();
     }
+
+    static selectFile(accepted) {
+        var input = document.createElement("input");
+        input.type = "file";
+        input.accept = accepted.join(',');
+        input.style.display = "none";
+        document.body.appendChild(input);
+        input.click();
+    }
 }
 
 class Instrument {
