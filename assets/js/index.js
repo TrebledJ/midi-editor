@@ -37,7 +37,7 @@ function startRecording() {
 
 function stopRecording() {
     console.log("stopping recording...");
-    
+
     if (!recorder || recorder.state === "inactive") return;
     isRecording = false;
 
@@ -346,6 +346,7 @@ $(document).ready(function () {
     updateRollWidth();
 
     DOM.roll.onNoteClicked = function (note) {
+        console.log("note clicked:", note);
         const { t, n, g, v, ch } = note;
         $("#pitch-control").val(n);
         $("#duration-control").val(g);
@@ -353,28 +354,39 @@ $(document).ready(function () {
         $("#channel-control").val(ch + 1);
     };
 
+    DOM.roll.onNoteClicked({
+        n: 60,
+        g: 1,
+        v: DOM.roll.defaultVelocity,
+        ch: DOM.roll.selectedChannel,
+    });
+
     $("#pitch-control").on("change", () => {
         const n = Number($("#pitch-control").val());
-        console.log(`changed channel to ${n}`);
+        console.log(`changed pitch to ${n}`);
         DOM.roll.updateSelectedAttribute("n", n);
     });
 
     $("#duration-control").on("change", () => {
         const d = Number($("#duration-control").val());
-        console.log(`changed channel to ${d}`);
+        console.log(`changed duration to ${d}`);
         DOM.roll.updateSelectedAttribute("g", d);
     });
 
     $("#velocity-control").on("change", () => {
         const v = Number($("#velocity-control").val());
-        console.log(`changed channel to ${v}`);
-        DOM.roll.updateSelectedAttribute("v", v);
+        console.log(`changed velocity to ${v}`);
+        if (!DOM.roll.updateSelectedAttribute("v", v)) {
+            DOM.roll.defaultVelocity = v;
+        }
     });
 
     $("#channel-control").on("change", () => {
         const ch = Number($("#channel-control").val()) - 1;
         console.log(`changed channel to ${ch}`);
-        DOM.roll.updateSelectedAttribute("ch", ch);
+        if (!DOM.roll.updateSelectedAttribute("ch", ch)) {
+            DOM.roll.selectedChannel = ch;
+        }
     });
 
     // Trigger updates as if called.
@@ -449,9 +461,10 @@ $(document).ready(function () {
     const selectBoxes = document.querySelectorAll(".instrument-select");
     selectBoxes.forEach((e) => $(options).appendTo(e));
     for (let i = 0; i < DOM.roll.numChannels; i++) {
-        $(`#instrument-select-${i+1} option`).eq(2 * i).prop('selected', true);
+        $(`#instrument-select-${i + 1} option`)
+            .eq(2 * i)
+            .prop("selected", true);
     }
-
 
     $("#upload-file-select").on("change", function (e) {
         const input = e.target;

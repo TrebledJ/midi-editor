@@ -424,8 +424,8 @@ customElements.define(
                                     n: n,
                                     g: l,
                                     f: 0,
-                                    ch: 0,
-                                    v: 127,
+                                    ch: this.selectedChannel,
+                                    v: this.defaultVelocity,
                                 }) // TODO: this just uses default channel/vel.
                             );
                     }
@@ -572,7 +572,7 @@ customElements.define(
                         n: n,
                         g: g,
                         v: v,
-                        f: f,
+                        f: f || 0,
                         ch: ch,
                     };
                     this.sequence.push(ev);
@@ -621,10 +621,11 @@ customElements.define(
                             ev.g = t - ev.t;
                         } else if (t > ev.t && t + g < ev.t + ev.g) {
                             this.addNote(
+                                ev.ch,
                                 t + g,
                                 ev.n,
                                 ev.t + ev.g - t - g,
-                                this.defvelo
+                                this.defaultVelocity
                             );
                             ev.g = t - ev.t;
                         }
@@ -827,7 +828,7 @@ customElements.define(
                     const pt = Math.floor(ht.t);
                     if (this.editmode == "gridmono")
                         this.delAreaNote(pt, 1, ht.i);
-                    this.addNote(pt, ht.n | 0, 1, this.defvelo);
+                    this.addNote(this.selectedChannel, pt, ht.n | 0, 1, this.defaultVelocity);
                     this.dragging = { o: "G", m: "1" };
                 }
             };
@@ -840,7 +841,7 @@ customElements.define(
                             if (ht.m == "s") {
                                 if (this.editmode == "gridmono")
                                     this.delAreaNote(px, 1, ht.i);
-                                this.addNote(px, ht.n | 0, 1, this.defvelo);
+                                this.addNote(this.selectedChannel, px, ht.n | 0, 1, this.defaultVelocity);
                             }
                             break;
                         case "0":
@@ -1288,7 +1289,6 @@ customElements.define(
             // Note Window
             this.layout = function () {
                 if (typeof this.kbwidth == "undefined") return;
-                console.log('layout');
                 const proll = this.proll;
                 const bodystyle = this.body.style;
                 if (this.bgsrc)
@@ -1504,10 +1504,15 @@ customElements.define(
                 this.steph = this.sheight / this.yrange;
                 this.redrawGrid();
                 const l = this.sequence.length;
+                let firstNoteSeen = true;
                 for (let s = 0; s < l; ++s) {
                     const ev = this.sequence[s];
                     if (ev.f) this.ctx.fillStyle = this.colnotesel;
                     else this.ctx.fillStyle = this.colnote;
+                    if (firstNoteSeen && ev.f) {
+                        this.onNoteClicked(ev);
+                        firstNoteSeen = false;
+                    }
                     w = ev.g * this.stepw;
                     x =
                         (ev.t - this.xoffset) * this.stepw +
@@ -1567,13 +1572,15 @@ customElements.define(
 
             // Update attributes of selected notes.
             this.updateSelectedAttribute = function (attr, x) {
-                console.log(x, typeof x);
+                let updated = false;
                 this.sequence.forEach((note) => {
                     if (note.f) {
                         note[attr] = x;
+                        updated = true;
                     }
                 });
                 this.redraw();
+                return updated;
             };
 
             this.ready();
