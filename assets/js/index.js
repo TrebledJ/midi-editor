@@ -240,7 +240,7 @@ $(document).ready(function () {
 
     function updateRollWidth() {
         const colWidth = Math.max(
-            $(document).width() * 0.7,
+            $(document).width() * 7 / 12,
             $(".main-container").width()
         );
         const w = colWidth - DOM.roll.yruler - DOM.roll.kbwidth;
