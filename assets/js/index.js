@@ -281,24 +281,34 @@ $(document).ready(function () {
 
     // Initialise settings.
     $("#tempo-control").val(DOM.roll.tempo);
-    $("#timesig-control-menu a").on('click', (e) => {
+    $("#timesig-control-menu a").on("click", (e) => {
         const sig = e.target.innerHTML;
         console.log(`changing time sig to ${sig}`);
 
         function getGridDivs(sig) {
             // [subdivs per measure, subdivs per beat]
             switch (sig) {
-                case "2/4": return [8, 4];
-                case "3/4": return [12, 4];
+                case "2/4":
+                    return [8, 4];
+                case "3/4":
+                    return [12, 4];
                 default:
-                case "4/4": return [16, 4];
-                case "5/4": return [20, 4];
-                case "6/4": return [24, 4];
-                case "7/4": return [28, 4];
-                case "3/8": return [12, 4];
-                case "6/8": return [24, 4];
-                case "9/8": return [48, 4];
-                case "12/8": return [60, 4];
+                case "4/4":
+                    return [16, 4];
+                case "5/4":
+                    return [20, 4];
+                case "6/4":
+                    return [24, 4];
+                case "7/4":
+                    return [28, 4];
+                case "3/8":
+                    return [12, 4];
+                case "6/8":
+                    return [24, 4];
+                case "9/8":
+                    return [48, 4];
+                case "12/8":
+                    return [60, 4];
             }
         }
 
@@ -313,10 +323,9 @@ $(document).ready(function () {
     // $("input[type=checkbox]").bootstrapToggle();
 
     // Dropdown updates button display.
-    $('.dropdown-item').on('click',  function(){
-        if ($(this).hasClass("active"))
-            return;
-        var btnObj = $(this).parent().siblings('button');
+    $(".dropdown-item").on("click", function () {
+        if ($(this).hasClass("active")) return;
+        var btnObj = $(this).parent().siblings("button");
         $(btnObj).text($(this).text());
         $(btnObj).val($(this).text());
         $(this).siblings().removeClass("active");
