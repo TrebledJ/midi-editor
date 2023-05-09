@@ -1,3 +1,51 @@
+// Recording
+let recorder = undefined;
+
+const handleSuccess = function (stream) {
+    const options = { mimeType: "audio/webm" };
+    const recordedChunks = [];
+    const mediaRecorder = new MediaRecorder(stream, options);
+    recorder = mediaRecorder;
+
+    mediaRecorder.addEventListener("dataavailable", function (e) {
+        if (e.data.size > 0) recordedChunks.push(e.data);
+    });
+
+    mediaRecorder.addEventListener("stop", async function () {
+        const f = new File([new Blob(recordedChunks)], "audio.webm");
+        MidiUtils.loadFromWAV(f, "webm");
+    });
+
+    mediaRecorder.start();
+};
+
+let isRecording = false;
+
+function startRecording() {
+    console.log("recording...");
+
+    navigator.mediaDevices
+        .getUserMedia({ audio: true, video: false })
+        .then(handleSuccess)
+        .then(() => {
+            isRecording = true;
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+
+function stopRecording() {
+    console.log("stopping recording...");
+    
+    if (!recorder || recorder.state === "inactive") return;
+    isRecording = false;
+
+    recorder.stop();
+    recorder.stream.getAudioTracks().forEach((t) => t.stop());
+    recorder = undefined;
+}
+
 // Pitch range from 0-127, inclusive.
 const minPitch = 21;
 const maxPitch = 108;
@@ -243,15 +291,6 @@ $(document).ready(function () {
             // Set up key events
             $(document).keydown(handlePageKeyDown);
             $(document).keyup(handlePageKeyUp);
-
-            for (let c = 0; c < DOM.roll.numChannels; c++) {
-                $(`#instrument-select-${c + 1}`).on("change", (e) => {
-                    console.log(
-                        `Changed instrument on channel ${c} to ${e.target.value}!`
-                    );
-                    MIDI.programChange(c, Instrument.getNumber(e.target.value));
-                });
-            }
         },
     });
 
@@ -271,11 +310,11 @@ $(document).ready(function () {
         MIDI.setVolume(c, DOM.roll.ch(c).volume);
     });
 
-    $(".instrument-show").on("change", function (e) {
-        const c = getChannelID(e.target);
-        console.log(`toggling instrument ${c} visibility: ${e.target.checked}`);
-        Mixer.visibles[c] = e.target.checked;
-    });
+    // $(".instrument-show").on("change", function (e) {
+    //     const c = getChannelID(e.target);
+    //     console.log(`toggling instrument ${c} visibility: ${e.target.checked}`);
+    //     Mixer.visibles[c] = e.target.checked;
+    // });
 
     $(".instrument-mute").on("change", function (e) {
         const c = getChannelID(e.target);
@@ -409,15 +448,20 @@ $(document).ready(function () {
         .join("");
     const selectBoxes = document.querySelectorAll(".instrument-select");
     selectBoxes.forEach((e) => $(options).appendTo(e));
+    for (let i = 0; i < DOM.roll.numChannels; i++) {
+        $(`#instrument-select-${i+1} option`).eq(2 * i).prop('selected', true);
+    }
 
-    $("#upload-button").on("click", function () {
-        const input = DOM.selectFile([".mid", ".wav"]);
+
+    $("#upload-file-select").on("change", function (e) {
+        const input = e.target;
         $("#upload-button").prop("disabled", true);
-        if (input.files.length > 0 && input.files[0]) {
+        if (input.files.length === 0) {
+            alert("No files were selected!");
+        } else if (input.files[0]) {
             MidiUtils.loadFromFile(input.files[0]);
         }
         $("#upload-button").prop("disabled", false);
-        input.remove();
     });
 
     $("#save-button").on("click", function () {
@@ -425,30 +469,13 @@ $(document).ready(function () {
     });
 
     $("#record-button").on("click", function () {
-        console.log("Record not implemented yet.");
-        return;
-
-        console.log("test!");
-        let string = "";
-        for (let i = 0; i < 128; i++) string += String.fromCharCode(i);
-        string += String.fromCharCode(0xe0);
-
-        var form = new FormData();
-        form.append("data", new Blob([string], { type: "text/plain" }));
-
-        $.ajax({
-            url: "/transform",
-            type: "POST",
-            data: form,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                console.log(response);
-            },
-            error: function (error) {
-                console.error(error);
-            },
-        });
+        if (!isRecording) {
+            startRecording();
+            $("#record-button-text")[0].innerHTML = "Stop";
+        } else {
+            stopRecording();
+            $("#record-button-text")[0].innerHTML = "Record";
+        }
     });
 
     function setInstruments() {

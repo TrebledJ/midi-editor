@@ -33,11 +33,12 @@ class Channel {
     }
 
     get visible() {
-        return $(`#instrument-show-${this.id}`)[0].value;
+        // return $(`#instrument-show-${this.id}`)[0].value;
+        return true;
     }
 
     set visible(val) {
-        $(`#instrument-show-${this.id}`)[0].value = val;
+        // $(`#instrument-show-${this.id}`)[0].value = val;
     }
 
     get mute() {
@@ -101,6 +102,7 @@ class DOM {
         input.style.display = "none";
         document.body.appendChild(input);
         input.click();
+        return input;
     }
 }
 
@@ -208,9 +210,10 @@ class MidiUtils {
         DOM.roll.redraw();
     }
 
-    static loadFromWAV(file) {
+    static loadFromWAV(blobOrFile, type) {
+        type ||= 'wav';
         var form = new FormData();
-        form.append("file", file, "audio.wav");
+        form.append("file", blobOrFile, `audio.${type}`);
         this.transformAudioPayload(form);
     }
 
