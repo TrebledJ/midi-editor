@@ -74,7 +74,6 @@ def convert_audio_to_midi():
 
     print(f'checksum: {checksum}')
 
-
     response = {
         'midi': encoded.decode(),
         'checksum': checksum,
@@ -87,4 +86,4 @@ if __name__ == '__main__':
     # import os
     # listall = lambda dir: [os.path.join(dp, f) for dp, dn, fn in os.walk(os.path.expanduser(dir)) for f in fn]
 
-    app.run(port=5000, debug=True)
+    app.run(port=8000, debug=True)

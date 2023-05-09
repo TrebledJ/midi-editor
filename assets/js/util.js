@@ -200,6 +200,7 @@ class MidiUtils {
                 );
             });
 
+            console.log(`read channel ${channel} instrument: ${instrument.number}`);
             DOM.roll.ch(channel).instrument = instrument.number;
 
             const endTicks = track.endOfTrackTicks;
