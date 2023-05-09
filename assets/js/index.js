@@ -182,9 +182,26 @@ function handlePageKeyUp(evt) {
     key_down_status[key_number] = false;
 }
 
-/*
- * You need to write an event handling function for the instrument
- */
+class Mixer {
+    static mutes = Array(DOM.roll.numChannels).fill(false);
+    static solos = Array(DOM.roll.numChannels).fill(false);
+    static visibles = Array(DOM.roll.numChannels).fill(false);
+
+    static anySolos() {
+        return this.solos.reduce((acc, x) => acc || x, false);
+    }
+
+    static shouldPlay(ch) {
+        // Returns whether a channel should play or not.
+        if (this.mutes[ch])
+            // Muted.
+            return false;
+        if (this.anySolos() && !this.solos[ch])
+            // Has solos, but channel not soloed.
+            return false;
+        return true;
+    }
+}
 
 $(document).ready(function () {
     MIDI.loadPlugin({
@@ -228,16 +245,162 @@ $(document).ready(function () {
             $(document).keyup(handlePageKeyUp);
 
             for (let c = 0; c < DOM.roll.numChannels; c++) {
-                $(`#instrument-select-${c+1}`).on("change", (e) => {
-                    console.log(`Changed instrument on channel ${c} to ${e.target.value}!`);
+                $(`#instrument-select-${c + 1}`).on("change", (e) => {
+                    console.log(
+                        `Changed instrument on channel ${c} to ${e.target.value}!`
+                    );
                     MIDI.programChange(c, Instrument.getNumber(e.target.value));
                 });
             }
         },
     });
 
+    function getChannelID(html) {
+        return html.id.split("-").pop() - 1;
+    }
+
+    $(".instrument-select").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`changing instrument ${c} instrument: ${e.target.value}`);
+        MIDI.programChange(c, DOM.roll.ch(c).instrumentNum);
+    });
+
+    $(".instrument-volume").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`changing instrument ${c} volume: ${e.target.value}`);
+        MIDI.setVolume(c, DOM.roll.ch(c).volume);
+    });
+
+    $(".instrument-show").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`toggling instrument ${c} visibility: ${e.target.checked}`);
+        Mixer.visibles[c] = e.target.checked;
+    });
+
+    $(".instrument-mute").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`toggling instrument ${c} mute: ${e.target.checked}`);
+        Mixer.mutes[c] = e.target.checked;
+
+        MIDI.setVolume(c, Mixer.shouldPlay(c) ? 0 : DOM.roll.ch(c).volume);
+    });
+
+    $(".instrument-solo").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`toggling instrument ${c} solo: ${e.target.checked}`);
+        Mixer.solos[c] = e.target.checked;
+
+        MIDI.setVolume(c, Mixer.shouldPlay(c) ? 0 : DOM.roll.ch(c).volume);
+    });
+
+    function updateRollWidth() {
+        const colWidth = Math.max(
+            ($(document).width() * 7) / 12,
+            $(".main-container").width()
+        );
+        const w = colWidth - DOM.roll.yruler - DOM.roll.kbwidth;
+        console.log("resizing to width", w);
+        DOM.roll.width = w;
+    }
+
+    $(window).resize(updateRollWidth);
+    updateRollWidth();
+
+    DOM.roll.onNoteClicked = function (note) {
+        const { t, n, g, v, ch } = note;
+        $("#pitch-control").val(n);
+        $("#duration-control").val(g);
+        $("#velocity-control").val(v);
+    };
+
+    $("#pitch-control").on("change", () => {
+        DOM.roll.updateSelectedAttribute(
+            "n",
+            Number($("#pitch-control").val())
+        );
+    });
+
+    $("#duration-control").on("change", () => {
+        DOM.roll.updateSelectedAttribute(
+            "g",
+            Number($("#duration-control").val())
+        );
+    });
+
+    $("#velocity-control").on("change", () => {
+        DOM.roll.updateSelectedAttribute(
+            "v",
+            Number($("#velocity-control").val())
+        );
+    });
+
+    $("#channel-control").on("change", () => {
+        DOM.roll.updateSelectedAttribute(
+            "ch",
+            Number($("#channel-control").val())
+        );
+    });
+
+    // Trigger updates as if called.
+    $("#timebase-control")[0].dispatchEvent(new Event("input"));
+
+    $("#tempo-control").on("change", (e) => {
+        const tempo = Number(e.target.value);
+        console.log(`changing tempo to ${tempo} bpm`);
+        DOM.roll.tempo = tempo;
+    });
+
+    // Initialise settings.
+    $("#tempo-control").val(DOM.roll.tempo);
+    $("#timesig-control-menu a").on("click", (e) => {
+        const sig = e.target.innerHTML;
+        console.log(`changing time sig to ${sig}`);
+
+        function getGridDivs(sig) {
+            // [subdivs per measure, subdivs per beat]
+            switch (sig) {
+                case "2/4":
+                    return [8, 4];
+                case "3/4":
+                    return [12, 4];
+                default:
+                case "4/4":
+                    return [16, 4];
+                case "5/4":
+                    return [20, 4];
+                case "6/4":
+                    return [24, 4];
+                case "7/4":
+                    return [28, 4];
+                case "3/8":
+                    return [12, 4];
+                case "6/8":
+                    return [24, 4];
+                case "9/8":
+                    return [48, 4];
+                case "12/8":
+                    return [60, 4];
+            }
+        }
+
+        const [timebase, grid] = getGridDivs(sig);
+        DOM.roll.timebase = timebase;
+        DOM.roll.grid = grid;
+        DOM.roll.redraw();
+    });
+
     // Enable Bootstrap Toggle
     // $("input[type=checkbox]").bootstrapToggle();
+
+    // Dropdown updates button display.
+    $(".dropdown-item").on("click", function () {
+        if ($(this).hasClass("active")) return;
+        var btnObj = $(this).parent().siblings("button");
+        $(btnObj).text($(this).text());
+        $(btnObj).val($(this).text());
+        $(this).siblings().removeClass("active");
+        $(this).addClass("active");
+    });
 
     // Set up the event handlers
     // $('a.nav-link').on("click", showTab); // Tab clicked
@@ -250,12 +413,14 @@ $(document).ready(function () {
     const selectBoxes = document.querySelectorAll(".instrument-select");
     selectBoxes.forEach((e) => $(options).appendTo(e));
 
-    $("#upload-file-select").on("change", function (e) {
+    $("#upload-button").on("click", function () {
+        const input = DOM.selectFile([".mid", ".wav"]);
         $("#upload-button").prop("disabled", true);
-        if (e.target.files.length > 0 && e.target.files[0]) {
-            MidiUtils.loadFromFile(e.target.files[0]);
+        if (input.files.length > 0 && input.files[0]) {
+            MidiUtils.loadFromFile(input.files[0]);
         }
         $("#upload-button").prop("disabled", false);
+        input.remove();
     });
 
     $("#save-button").on("click", function () {
@@ -300,16 +465,23 @@ $(document).ready(function () {
         setInstruments();
 
         const ctx = MIDI.getContext();
-        DOM.roll.play(ctx, function(note) {
-            // t:noteOnTime, g:noteOffTime, n:noteNumber
-            const {t, g, n, v, ch} = note;
-            console.log('Playing note:', JSON.stringify(note));
-            MIDI.noteOn(ch, n, v);
+        DOM.roll.play(
+            ctx,
+            function (note) {
+                // t:noteOnTime, g:noteOffTime, n:noteNumber
+                const { t, g, n, v, ch } = note;
+                console.log("Playing note:", JSON.stringify(note));
 
-            // const offDelay = g * MidiUtils.bpm;
-            MIDI.noteOff(ch, n, g - t);
+                if (!Mixer.shouldPlay(ch)) {
+                    console.log("Channel excluded by mixer.");
+                    return;
+                }
 
-        }, 0);
+                MIDI.noteOn(ch, n, v);
+                MIDI.noteOff(ch, n, g - t);
+            },
+            0
+        );
     });
 
     $("#stop-button").on("click", function () {

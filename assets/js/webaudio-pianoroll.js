@@ -30,11 +30,11 @@ customElements.define(
             this.module = {
                 is: "webaudio-pianoroll",
                 properties: {
-                    width: { type: Number, value: 980, observer: "layout" },
+                    width: { type: Number, value: 900, observer: "layout" },
                     height: { type: Number, value: 528, observer: "layout" },
                     timebase: { type: Number, value: 16, observer: "layout" },
                     editmode: { type: String, value: "dragpoly" },
-                    xrange: { type: Number, value: 32, observer: "layout" },
+                    xrange: { type: Number, value: 16, observer: "layout" },
                     yrange: { type: Number, value: 24, observer: "layout" },
                     xoffset: { type: Number, value: 0, observer: "layout" },
                     yoffset: { type: Number, value: 60, observer: "layout" },
@@ -77,6 +77,7 @@ customElements.define(
                     colnoteborder: { type: String, value: "#000" },
                     colnoteselborder: { type: String, value: "#fff" },
                     colrulerbg: { type: String, value: "#666" },
+                    colrulerbg2: { type: String, value: "#999" },
                     colrulerfg: { type: String, value: "#fff" },
                     colrulerborder: { type: String, value: "#000" },
                     colselarea: { type: String, value: "rgba(0,0,0,0.3)" },
@@ -95,7 +96,7 @@ customElements.define(
                         type: String,
                         value: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCjxwYXRoIGZpbGw9IiMwYzAiIGQ9Ik0wLDEgMjQsMSAyNCwyMyB6Ii8+DQo8L3N2Zz4NCg==",
                     },
-                    markendoffset: { type: Number, value: 415},
+                    markendoffset: { type: Number, value: -24 },
                     // kbsrc:              {type:String, value:"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSI0ODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8cGF0aCBmaWxsPSIjZmZmIiBzdHJva2U9IiMwMDAiIGQ9Ik0wLDAgaDI0djQ4MGgtMjR6Ii8+CjxwYXRoIGZpbGw9IiMwMDAiIGQ9Ik0wLDQwIGgxMnY0MGgtMTJ6IE0wLDEyMCBoMTJ2NDBoLTEyeiBNMCwyMDAgaDEydjQwaC0xMnogTTAsMzIwIGgxMnY0MGgtMTJ6IE0wLDQwMCBoMTJ2NDBoLTEyeiIvPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIGQ9Ik0wLDYwIGgyNCBNMCwxNDAgaDI0IE0wLDIyMCBoMjQgTTAsMjgwIGgyNCBNMCwzNDAgaDI0IE0wLDQyMCBoMjQiLz4KPC9zdmc+Cg==", observer:'layout'},
                     kbwidth: { type: Number, value: 80 },
                     loop: { type: Number, value: 0 },
@@ -145,26 +146,14 @@ customElements.define(
     top:0px;
     cursor:ew-resize;
 }
-#wac-kb{
-    float:left;
-    position:relative;
-    left:0px;
-    top:0px;
-    width:100px;
-    height:100%;
-    background: repeat-y;
-    background-size:100% calc(100%*12/16);
-    background-position:left bottom;
-}
 </style>
 <div class="wac-body" id="wac-body" touch-action="none">
 <canvas id="wac-pianoroll" touch-action="none" tabindex="0"></canvas>
-<div id="wac-kb"></div>
 <img id="wac-markstart" class="marker" src="${this.markstartsrc}"/>
 <img id="wac-markend" class="marker" src="${this.markendsrc}"/>
-<img id="wac-cursor" class="marker" src="${this.cursorsrc}"/>
-// <div id="wac-menu">abc</div>
 </div>`;
+            // <div id="wac-menu">abc</div>
+            // {/* <img id="wac-cursor" class="marker" src="${this.cursorsrc}"/> */}
 
             this.sortSequence = function () {
                 this.sequence.sort((x, y) => {
@@ -430,7 +419,14 @@ customElements.define(
                             tie = 0;
                         } else
                             this.sequence.push(
-                                (evlast = { t: t, n: n, g: l, f: 0, ch: 0, v: 127 }) // TODO: this just uses default channel/vel.
+                                (evlast = {
+                                    t: t,
+                                    n: n,
+                                    g: l,
+                                    f: 0,
+                                    ch: 0,
+                                    v: 127,
+                                }) // TODO: this just uses default channel/vel.
                             );
                     }
                     t += l;
@@ -570,7 +566,15 @@ customElements.define(
             };
             this.addNote = function (ch, t, n, g, v, f) {
                 if (t >= 0 && n >= 0 && n < 128) {
-                    const ev = { t: t, c: 0x90, n: n, g: g, v: v, f: f, ch: ch };
+                    const ev = {
+                        t: t,
+                        c: 0x90,
+                        n: n,
+                        g: g,
+                        v: v,
+                        f: f,
+                        ch: ch,
+                    };
                     this.sequence.push(ev);
                     this.sortSequence();
                     this.redraw();
@@ -676,10 +680,16 @@ customElements.define(
                         n: ev.n,
                         dt: ht.t - ev.t,
                     };
+                    let firstNoteEncountered = true;
                     for (let i = 0, l = this.sequence.length; i < l; ++i) {
                         ev = this.sequence[i];
-                        if (ev.f)
+                        if (ev.f) {
                             (ev.on = ev.n), (ev.ot = ev.t), (ev.og = ev.g);
+                            if (firstNoteEncountered && this.onNoteClicked) {
+                                this.onNoteClicked(note);
+                                firstNoteEncountered = false;
+                            }
+                        }
                     }
                     this.redraw();
                 } else if (ht.m == "n") {
@@ -710,7 +720,15 @@ customElements.define(
                 } else if (ht.m == "s" && ht.t >= 0) {
                     this.clearSel();
                     var t = ((ht.t / this.snap) | 0) * this.snap;
-                    this.sequence.push({ t: t, n: ht.n | 0, g: 1, f: 1, ch: this.selectedChannel, v: this.defaultVelocity });
+                    const note = {
+                        t: t,
+                        n: ht.n | 0,
+                        g: 1,
+                        f: 1,
+                        ch: this.selectedChannel,
+                        v: this.defaultVelocity,
+                    };
+                    this.sequence.push(note);
                     this.dragging = {
                         o: "D",
                         m: "E",
@@ -725,6 +743,7 @@ customElements.define(
                             },
                         ],
                     };
+                    if (this.onNoteClicked) this.onNoteClicked(note);
                     this.redraw();
                 }
             };
@@ -862,13 +881,11 @@ customElements.define(
                 this.elem = root.childNodes[2];
                 this.proll = this.elem.children[0];
                 this.canvas = this.elem.children[0];
-                this.kb = this.elem.children[1];
                 this.ctx = this.canvas.getContext("2d");
-                this.kbimg = this.elem.children[1];
-                this.markstartimg = this.elem.children[2];
-                this.markendimg = this.elem.children[3];
-                this.cursorimg = this.elem.children[4];
-                this.menu = this.elem.children[5];
+                this.markstartimg = this.elem.children[1];
+                this.markendimg = this.elem.children[2];
+                // this.cursorimg = this.elem.children[4];
+                // this.menu = this.elem.children[5];
                 this.rcMenu = { x: 0, y: 0, width: 0, height: 0 };
                 this.lastx = 0;
                 this.lasty = 0;
@@ -895,12 +912,10 @@ customElements.define(
                 this.setListener(this.canvas, true);
                 this.setListener(this.markendimg, true);
                 this.setListener(this.markstartimg, true);
-                this.setListener(this.cursorimg, true);
-                this.setListener(this.menu, false);
+                // this.setListener(this.cursorimg, true);
+                // this.setListener(this.menu, false);
                 this.sequence = [];
                 this.dragging = { o: null };
-                this.kbimg.style.height = this.sheight + "px";
-                this.kbimg.style.backgroundSize = this.steph * 12 + "px";
                 this.layout();
                 this.initialized = 1;
                 this.redraw();
@@ -987,7 +1002,7 @@ customElements.define(
                 window.addEventListener("mouseup", this.bindcancel);
                 window.addEventListener("contextmenu", this.bindcontextmenu);
                 range.addEventListener(
-                    "horizontal-slider",
+                    "offset-control",
                     this.selfxscroll,
                     false
                 );
@@ -1038,15 +1053,15 @@ customElements.define(
                         ev.preventDefault();
                         ev.stopPropagation();
                         return false;
-                    case this.cursorimg:
-                        this.dragging = {
-                            o: "P",
-                            x: this.downpos.x,
-                            m: this.cursor,
-                        };
-                        ev.preventDefault();
-                        ev.stopPropagation();
-                        return false;
+                    // case this.cursorimg:
+                    //     this.dragging = {
+                    //         o: "P",
+                    //         x: this.downpos.x,
+                    //         m: this.cursor,
+                    //     };
+                    //     ev.preventDefault();
+                    //     ev.stopPropagation();
+                    //     return false;
                 }
                 this.dragging = {
                     o: null,
@@ -1273,6 +1288,7 @@ customElements.define(
             // Note Window
             this.layout = function () {
                 if (typeof this.kbwidth == "undefined") return;
+                console.log('layout');
                 const proll = this.proll;
                 const bodystyle = this.body.style;
                 if (this.bgsrc)
@@ -1293,11 +1309,11 @@ customElements.define(
             };
             this.redrawMarker = function () {
                 if (!this.initialized) return;
-                const cur =
-                    (this.cursor - this.xoffset) * this.stepw +
-                    this.yruler +
-                    this.kbwidth;
-                this.cursorimg.style.left = cur + this.cursoroffset + "px";
+                // const cur =
+                //     (this.cursor - this.xoffset) * this.stepw +
+                //     this.yruler +
+                //     this.kbwidth;
+                // this.cursorimg.style.left = cur + this.cursoroffset + "px";
                 const start =
                     (this.markstart - this.xoffset) * this.stepw +
                     this.yruler +
@@ -1331,6 +1347,17 @@ customElements.define(
                     );
                 }
                 for (let t = 0; ; t += this.grid) {
+                    let x =
+                        this.stepw * (t - this.xoffset) +
+                        this.yruler +
+                        this.kbwidth;
+                    this.ctx.fillRect(x | 0, this.xruler, 1, this.sheight);
+                    if (x >= this.width) break;
+                }
+                // Vertical grid light bg.
+                this.ctx.fillStyle = this.colrulerbg2;
+                for (let t = 0; ; t++) {
+                    if (t % this.grid == 0) continue;
                     let x =
                         this.stepw * (t - this.xoffset) +
                         this.yruler +
@@ -1401,13 +1428,13 @@ customElements.define(
                         );
                     }
                 }
-                this.kbimg.style.top = this.xruler + "px";
-                this.kbimg.style.left = this.yruler + "px";
-                this.kbimg.style.width = this.kbwidth + "px";
-                this.kbimg.style.backgroundSize =
-                    "100% " + this.steph * 12 + "px";
-                this.kbimg.style.backgroundPosition =
-                    "0px " + (this.sheight + this.steph * this.yoffset) + "px";
+                // this.kbimg.style.top = this.xruler + "px";
+                // this.kbimg.style.left = this.yruler + "px";
+                // this.kbimg.style.width = this.kbwidth + "px";
+                // this.kbimg.style.backgroundSize =
+                //     "100% " + this.steph * 12 + "px";
+                // this.kbimg.style.backgroundPosition =
+                //     "0px " + (this.sheight + this.steph * this.yoffset) + "px";
             };
             this.redrawKeyboard = function () {
                 if (this.yruler) {
@@ -1505,31 +1532,49 @@ customElements.define(
                 this.redrawAreaSel();
             };
 
-            let range = document.querySelector("#horizontal-slider");
+            // Slider for changing the offset of the grid.
+            let range = document.querySelector("#offset-control");
 
             range.addEventListener(
                 "input",
                 (function (_this) {
                     return function () {
                         _this.xoffset = Number(this.value);
-                    
+                        _this.updateMarkers();
                     };
                 })(this),
                 false
             );
 
-            let timeduration = document.querySelector("#timeline-control");
+            this.updateMarkers = function () {
+                this.markstart = this.xoffset;
+                this.markend = this.xoffset + this.xrange;
+            };
+
+            // Slider for changing the scale of the grid (i.e. number of measures shown).
+            let timeduration = document.querySelector("#timebase-control");
 
             timeduration.addEventListener(
                 "input",
                 (function (_this) {
                     return function () {
-                        _this.xrange = Number(this.value);
-                        _this.markend = (Number(this.value)/16 * 8);
+                        _this.xrange = Number(this.value) * DOM.roll.timebase;
+                        _this.updateMarkers();
                     };
                 })(this),
                 false
             );
+
+            // Update attributes of selected notes.
+            this.updateSelectedAttribute = function (attr, x) {
+                console.log(x, typeof x);
+                this.sequence.forEach((note) => {
+                    if (note.f) {
+                        note[attr] = x;
+                    }
+                });
+                this.redraw();
+            };
 
             this.ready();
         }
@@ -1554,4 +1599,3 @@ customElements.define(
         disconnectedCallback() {}
     }
 );
-

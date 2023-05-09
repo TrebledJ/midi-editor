@@ -25,11 +25,11 @@ class Channel {
     }
 
     get volume() {
-        return $(`#instrument-volume-${this.id}`)[0].value;
+        return $(`#instrument-volume-${this.id}`)[0].value * 127;
     }
 
     set volume(val) {
-        $(`#instrument-volume-${this.id}`)[0].value = val;
+        $(`#instrument-volume-${this.id}`)[0].value = val / 127;
     }
 
     get visible() {
@@ -92,6 +92,15 @@ class DOM {
         document.body.appendChild(a);
         a.click();
         a.remove();
+    }
+
+    static selectFile(accepted) {
+        var input = document.createElement("input");
+        input.type = "file";
+        input.accept = accepted.join(',');
+        input.style.display = "none";
+        document.body.appendChild(input);
+        input.click();
     }
 }
 
