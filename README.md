@@ -19,4 +19,8 @@ The current backend conversion is somewhat jank and limited, but there are plans
     python app.py
     ```
 
+    Open the site at http://127.0.0.1:8000.
 
+
+## Acknowledgement
+* [WebAudio PianoRoll](https://github.com/g200kg/webaudio-pianoroll)
