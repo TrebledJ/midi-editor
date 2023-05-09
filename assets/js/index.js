@@ -1,3 +1,41 @@
+// Recorinding
+const start = document.querySelector("#record-button");
+const stop = document.querySelector("#stop-button");
+const downloadLink = document.getElementById('download');
+
+const handleSuccess = function (stream) {
+    const options = { mimeType: 'audio/webm' };
+    const recordedChunks = [];
+    const mediaRecorder = new MediaRecorder(stream, options);
+
+    mediaRecorder.addEventListener('dataavailable', function (e) {
+        if (e.data.size > 0) recordedChunks.push(e.data);
+    });
+
+    mediaRecorder.addEventListener('stop', function () {
+        MidiUtils.loadFromWAV(new Blob(recordedChunks));
+        // downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
+        // downloadLink.download = 'acetest.wav';
+    });
+
+    stop.addEventListener('click', function () {
+        console.log("stop");
+        if (mediaRecorder.state === 'inactive')
+            return;
+        mediaRecorder.stop();
+        mediaRecorder.stream.getAudioTracks().forEach(t => t.stop());
+    });
+
+    mediaRecorder.start();
+};
+start.addEventListener('click', function () {
+    console.log("recording");
+
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+        .then(handleSuccess);
+});
+
+
 // Pitch range from 0-127, inclusive.
 const minPitch = 21;
 const maxPitch = 108;
