@@ -12,7 +12,7 @@ The current backend conversion is somewhat jank and limited, but there are plans
     pip install -r requirements.txt
     ```
 
-2. [Download `ffmpeg`](https://ffmpeg.org/), if not installed. This is used to convert recordings (webm) to wav; so if it's optional if you don't plan on using the recording function.
+2. [Download `ffmpeg`](https://ffmpeg.org/), if not installed. This is used to convert recordings (.webm) to .wav; so it's optional if you don't plan on using the recording function.
 
 3. To run the server:
     ```
