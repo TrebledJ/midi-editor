@@ -212,20 +212,3 @@ h5 {
 #timebase-control.slider2::-moz-range-thumb {
     background: red;
 }
-
-
-/* Time Display */
-.timedisplay-topbox {
-    position: relative;
-    left: 180px;
-    align-items: center;
-    justify-content: center;
-    width: 370px;
-    height: 50px;
-    background: paleturquoise;
-    border-left: 10px ridge transparent;
-    border-right: 10px ridge transparent;
-    border-top: 10px ridge transparent;
-    border-bottom: 5px inset transparent;
-    border-radius: 10px;
-}
