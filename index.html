@@ -69,257 +69,257 @@
                 <i class="fas fa-record-vinyl me-2"></i>
                 <span>Record</span></button>
 
-                <div class="btn-group btn-group-lg">
-                  <button id="stop-button" class="btn btn-danger">
-                    <i class="fas fa-record-vinyl me-2"></i>
-                    <span>Stop</span></button>
+              <div class="btn-group btn-group-lg">
+                <button id="stop-button" class="btn btn-danger">
+                  <i class="fas fa-record-vinyl me-2"></i>
+                  <span>Stop</span></button>
 
-              <button id="upload-button" class="btn btn-warning" onclick="$('#upload-file-select').click()">
-                <i class="fas fa-upload me-2"></i>
-                <span>Upload</span></button>
+                <button id="upload-button" class="btn btn-warning" onclick="$('#upload-file-select').click()">
+                  <i class="fas fa-upload me-2"></i>
+                  <span>Upload</span></button>
 
-              <button id="save-button" class="btn btn-info">
-                <i class="fas fa-floppy-disk me-2"></i>
-                <span>Save</span></button>
+                <button id="save-button" class="btn btn-info">
+                  <i class="fas fa-floppy-disk me-2"></i>
+                  <span>Save</span></button>
+              </div>
+
+              <!-- MIDI PLay Stop Control -->
+              <div class="btn-group btn-group-lg">
+                <button id="play-button" class="btn btn-success">
+                  <i class="fas fa-play me-2"></i>
+                  <span>Play</span></button>
+                <button id="stop-button" class="btn btn-danger">
+                  <i class="fas fa-stop me-2"></i>
+                  <span>Stop</span></button>
+              </div>
             </div>
 
-            <!-- MIDI PLay Stop Control -->
-            <div class="btn-group btn-group-lg">
-              <button id="play-button" class="btn btn-success">
-                <i class="fas fa-play me-2"></i>
-                <span>Play</span></button>
-              <button id="stop-button" class="btn btn-danger">
-                <i class="fas fa-stop me-2"></i>
-                <span>Stop</span></button>
+            <div style="margin-top:20px"></div>
+
+            <!-- Time Display -->
+            <div class="d-flex flex-row justify-content-end">
+              <div id="time-display">
+                <h5>10:00:00</h5>
+              </div>
             </div>
-          </div>
 
-          <div style="margin-top:20px"></div>
-
-          <!-- Time Display -->
-          <div class="d-flex flex-row justify-content-end">
-            <div id="time-display">
-              <h5>10:00:00</h5>
-            </div>
-          </div>
-
-          <!-- Vertical Note Track Control -->
-          <!-- <div class="verticalslidercontainer">
+            <!-- Vertical Note Track Control -->
+            <!-- <div class="verticalslidercontainer">
         <input type="range" min="1" max="100" value="50" class="verticalslider" id="vertical-slide">
       </div> -->
 
-          <!-- Pianoroll Plug In -->
-          <div class="d-flex justify-content-end">
-            <div class="d-flex flex-column">
+            <!-- Pianoroll Plug In -->
+            <div class="d-flex justify-content-end">
               <div class="d-flex flex-column">
-                <webaudio-pianoroll></webaudio-pianoroll>
-
-                <!-- Keyboard -->
-                <div class="keyboard">
-                  <div class="white-keys">
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                    <div class="white-key"></div>
-                  </div>
-
-                  <div class="black-keys">
-                    <div class="black-key key-bb"></div>
-                    <div class="black-key key-ab"></div>
-                    <div class="black-key key-gb"></div>
-                    <div class="black-key key-eb"></div>
-                    <div class="black-key key-db"></div>
-                    <div class="black-key key-bb"></div>
-                    <div class="black-key key-ab"></div>
-                    <div class="black-key key-gb"></div>
-                    <div class="black-key key-eb"></div>
-                    <div class="black-key key-db"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Horizontal Timeline Control -->
-              <div style="">
                 <div class="d-flex flex-column">
-                  <div class="d-flex flex-row justify-content-end align-items-center">
-                    <input type="range" min="0" max="100" value="0" step="1" class="slider w-50" id="offset-control">
-                    <span class="label ml-2">Offset</span>
+                  <webaudio-pianoroll></webaudio-pianoroll>
+
+                  <!-- Keyboard -->
+                  <div class="keyboard">
+                    <div class="white-keys">
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                      <div class="white-key"></div>
+                    </div>
+
+                    <div class="black-keys">
+                      <div class="black-key key-bb"></div>
+                      <div class="black-key key-ab"></div>
+                      <div class="black-key key-gb"></div>
+                      <div class="black-key key-eb"></div>
+                      <div class="black-key key-db"></div>
+                      <div class="black-key key-bb"></div>
+                      <div class="black-key key-ab"></div>
+                      <div class="black-key key-gb"></div>
+                      <div class="black-key key-eb"></div>
+                      <div class="black-key key-db"></div>
+                    </div>
                   </div>
-                  <div class="d-flex flex-row justify-content-end align-items-center">
-                    <input type="range" min="1" max="10" value="2" step="1" class="slider w-25" id="timebase-control">
-                    <span class="label ml-2">Scale</span>
+                </div>
+
+                <!-- Horizontal Timeline Control -->
+                <div style="">
+                  <div class="d-flex flex-column">
+                    <div class="d-flex flex-row justify-content-end align-items-center">
+                      <input type="range" min="0" max="100" value="0" step="1" class="slider w-50" id="offset-control">
+                      <span class="label ml-2">Offset</span>
+                    </div>
+                    <div class="d-flex flex-row justify-content-end align-items-center">
+                      <input type="range" min="1" max="10" value="2" step="1" class="slider w-25" id="timebase-control">
+                      <span class="label ml-2">Scale</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="col-5 mixer-container pl-0">
-          <!-- Track Control Panel -->
-          <div class="mixer">
-            <table id="mixer-table" class="styled-table" width="100%" height="100%">
-              <thead>
+          <div class="col-5 mixer-container pl-0">
+            <!-- Track Control Panel -->
+            <div class="mixer">
+              <table id="mixer-table" class="styled-table" width="100%" height="100%">
+                <thead>
+                  <tr>
+                    <th>Track</th>
+                    <th>Instrument</th>
+                    <th>Show</th>
+                    <th>Mute</th>
+                    <th>Solo</th>
+                  </tr>
+                </thead>
                 <tr>
-                  <th>Track</th>
-                  <th>Instrument</th>
-                  <th>Show</th>
-                  <th>Mute</th>
-                  <th>Solo</th>
+                  <td>1</td>
+                  <td>
+                    <select class="instrument-select" id="instrument-select-1"></select>
+                    <br>
+                    <input class="instrument-volume" id="instrument-volume-1" type="range" value="0.5" min="0" max="1" step="0.05">
+                  </td>
+                  <td><input type="checkbox" class="instrument-show" id="instrument-show-1"></td>
+                  <td><input type="checkbox" class="instrument-mute" id="instrument-mute-1"></td>
+                  <td><input type="checkbox" class="instrument-solo" id="instrument-solo-1"></td>
                 </tr>
-              </thead>
-              <tr>
-                <td>1</td>
-                <td>
-                  <select class="instrument-select" id="instrument-select-1"></select>
-                  <br>
-                  <input class="instrument-volume" id="instrument-volume-1" type="range" value="0.5" min="0" max="1" step="0.05">
-                </td>
-                <td><input type="checkbox" class="instrument-show" id="instrument-show-1"></td>
-                <td><input type="checkbox" class="instrument-mute" id="instrument-mute-1"></td>
-                <td><input type="checkbox" class="instrument-solo" id="instrument-solo-1"></td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>
-                  <select class="instrument-select" id="instrument-select-2"></select>
-                  <br>
-                  <input class="instrument-volume" id="instrument-volume-2" type="range" value="0.5" min="0" max="1" step="0.05">
-                </td>
-                <td><input type="checkbox" class="instrument-show" id="instrument-show-2"></td>
-                <td><input type="checkbox" class="instrument-mute" id="instrument-mute-2"></td>
-                <td><input type="checkbox" class="instrument-solo" id="instrument-solo-2"></td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>
-                  <select class="instrument-select" id="instrument-select-3"></select>
-                  <br>
-                  <input class="instrument-volume" id="instrument-volume-3" type="range" value="0.5" min="0" max="1" step="0.05">
-                </td>
-                <td><input type="checkbox" class="instrument-show" id="instrument-show-3"></td>
-                <td><input type="checkbox" class="instrument-mute" id="instrument-mute-3"></td>
-                <td><input type="checkbox" class="instrument-solo" id="instrument-solo-3"></td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>
-                  <select class="instrument-select" id="instrument-select-4"></select>
-                  <br>
-                  <input class="instrument-volume" id="instrument-volume-4" type="range" value="0.5" min="0" max="1" step="0.05">
-                </td>
-                <td><input type="checkbox" class="instrument-show" id="instrument-show-4"></td>
-                <td><input type="checkbox" class="instrument-mute" id="instrument-mute-4"></td>
-                <td><input type="checkbox" class="instrument-solo" id="instrument-solo-4"></td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>
-                  <select class="instrument-select" id="instrument-select-5"></select>
-                  <br>
-                  <input class="instrument-volume" id="instrument-volume-5" type="range" value="0.5" min="0" max="1" step="0.05">
-                </td>
-                <td><input type="checkbox" class="instrument-show" id="instrument-show-5"></td>
-                <td><input type="checkbox" class="instrument-mute" id="instrument-mute-5"></td>
-                <td><input type="checkbox" class="instrument-solo" id="instrument-solo-5"></td>
-              </tr>
-            </table>
-          </div>
+                <tr>
+                  <td>2</td>
+                  <td>
+                    <select class="instrument-select" id="instrument-select-2"></select>
+                    <br>
+                    <input class="instrument-volume" id="instrument-volume-2" type="range" value="0.5" min="0" max="1" step="0.05">
+                  </td>
+                  <td><input type="checkbox" class="instrument-show" id="instrument-show-2"></td>
+                  <td><input type="checkbox" class="instrument-mute" id="instrument-mute-2"></td>
+                  <td><input type="checkbox" class="instrument-solo" id="instrument-solo-2"></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>
+                    <select class="instrument-select" id="instrument-select-3"></select>
+                    <br>
+                    <input class="instrument-volume" id="instrument-volume-3" type="range" value="0.5" min="0" max="1" step="0.05">
+                  </td>
+                  <td><input type="checkbox" class="instrument-show" id="instrument-show-3"></td>
+                  <td><input type="checkbox" class="instrument-mute" id="instrument-mute-3"></td>
+                  <td><input type="checkbox" class="instrument-solo" id="instrument-solo-3"></td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>
+                    <select class="instrument-select" id="instrument-select-4"></select>
+                    <br>
+                    <input class="instrument-volume" id="instrument-volume-4" type="range" value="0.5" min="0" max="1" step="0.05">
+                  </td>
+                  <td><input type="checkbox" class="instrument-show" id="instrument-show-4"></td>
+                  <td><input type="checkbox" class="instrument-mute" id="instrument-mute-4"></td>
+                  <td><input type="checkbox" class="instrument-solo" id="instrument-solo-4"></td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>
+                    <select class="instrument-select" id="instrument-select-5"></select>
+                    <br>
+                    <input class="instrument-volume" id="instrument-volume-5" type="range" value="0.5" min="0" max="1" step="0.05">
+                  </td>
+                  <td><input type="checkbox" class="instrument-show" id="instrument-show-5"></td>
+                  <td><input type="checkbox" class="instrument-mute" id="instrument-mute-5"></td>
+                  <td><input type="checkbox" class="instrument-solo" id="instrument-solo-5"></td>
+                </tr>
+              </table>
+            </div>
 
-          <!-- MIDI Parameter Control Panel -->
-          <div class="container-fluid p-0">
-            <div class="col-auto p-0 mt-3">
-              <span class="">
-                <h4>Project Settings</h4>
-              </span>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="input-group mr-3 mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Tempo</span>
+            <!-- MIDI Parameter Control Panel -->
+            <div class="container-fluid p-0">
+              <div class="col-auto p-0 mt-3">
+                <span class="">
+                  <h4>Project Settings</h4>
+                </span>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="input-group mr-3 mb-2">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Tempo</span>
+                      </div>
+                      <input class="form-control" id="tempo-control" type="number" value="120" min="10" max="250" step="5">
                     </div>
-                    <input class="form-control" id="tempo-control" type="number" value="120" min="10" max="250" step="5">
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="input-group mr-3 mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Time</span>
+                  <div class="col-md-6">
+                    <div class="input-group mr-3 mb-2">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Time</span>
+                      </div>
+                      <div id="timesig-control-menu" class="dropdown-menu">
+                        <a class="dropdown-item">2/4</a>
+                        <a class="dropdown-item">3/4</a>
+                        <a class="dropdown-item active">4/4</a>
+                        <a class="dropdown-item">5/4</a>
+                        <a class="dropdown-item">6/4</a>
+                        <a class="dropdown-item">7/4</a>
+                        <div role="separator" class="dropdown-divider"></div>
+                        <a class="dropdown-item">3/8</a>
+                        <a class="dropdown-item">6/8</a>
+                        <a class="dropdown-item">9/8</a>
+                        <a class="dropdown-item">12/8</a>
+                      </div>
+                      <button id="timesig-control" class="btn dropdown-toggle form-control" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">4/4</button>
                     </div>
-                    <div id="timesig-control-menu" class="dropdown-menu">
-                      <a class="dropdown-item">2/4</a>
-                      <a class="dropdown-item">3/4</a>
-                      <a class="dropdown-item active">4/4</a>
-                      <a class="dropdown-item">5/4</a>
-                      <a class="dropdown-item">6/4</a>
-                      <a class="dropdown-item">7/4</a>
-                      <div role="separator" class="dropdown-divider"></div>
-                      <a class="dropdown-item">3/8</a>
-                      <a class="dropdown-item">6/8</a>
-                      <a class="dropdown-item">9/8</a>
-                      <a class="dropdown-item">12/8</a>
-                    </div>
-                    <button id="timesig-control" class="btn dropdown-toggle form-control" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">4/4</button>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="col-auto p-0 mt-3">
-              <span class="">
-                <h4>Note Control</h4>
-              </span>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="input-group mr-3 mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Pitch</span>
+              <div class="col-auto p-0 mt-3">
+                <span class="">
+                  <h4>Note Control</h4>
+                </span>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="input-group mr-3 mb-2">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Pitch</span>
+                      </div>
+                      <input class="form-control" id="pitch-control" type="number" value="60" min="0" max="127" step="1">
                     </div>
-                    <input class="form-control" id="pitch-control" type="number" value="60" min="0" max="127" step="1">
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="input-group mr-3 mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Duration</span>
+                  <div class="col-md-6">
+                    <div class="input-group mr-3 mb-2">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Duration</span>
+                      </div>
+                      <input class="form-control" id="duration-control" type="number" value="10" min="1" max="120" step="1">
                     </div>
-                    <input class="form-control" id="duration-control" type="number" value="10" min="1" max="120" step="1">
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="input-group mr-3 mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Velocity</span>
+                  <div class="col-md-6">
+                    <div class="input-group mr-3 mb-2">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Velocity</span>
+                      </div>
+                      <input class="form-control" id="velocity-control" type="number" value="60" min="1" max="127" step="1">
                     </div>
-                    <input class="form-control" id="velocity-control" type="number" value="60" min="1" max="127" step="1">
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="input-group mr-3 mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Channel</span>
+                  <div class="col-md-6">
+                    <div class="input-group mr-3 mb-2">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Channel</span>
+                      </div>
+                      <input class="form-control" id="channel-control" type="number" value="0" min="0" max="8" step="1">
                     </div>
-                    <input class="form-control" id="channel-control" type="number" value="0" min="0" max="8" step="1">
                   </div>
                 </div>
               </div>
+
             </div>
 
           </div>
-
         </div>
-      </div>
-      <!-- <div class="col-2">
+        <!-- <div class="col-2">
           <label for="timebase-control">Timeline Duration</label>
           <div class="input-group">
             <input class="timebase-control" id="timebase-control" type="number" value="32" min="16" max="160" step="16">
@@ -327,7 +327,7 @@
               <span class="input-group-text">s</span></div>
           </div>
         </div> -->
-    </div>
-  </body>
+      </div>
+    </body>
 
-</html>
+  </html>
