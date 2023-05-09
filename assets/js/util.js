@@ -25,7 +25,7 @@ class Channel {
     }
 
     get volume() {
-        return $(`#instrument-volume-${this.id}`)[0].value * 127;
+        return Math.round($(`#instrument-volume-${this.id}`)[0].value * 127);
     }
 
     set volume(val) {
