@@ -319,11 +319,11 @@ $(document).ready(function () {
         MIDI.setVolume(c, DOM.roll.ch(c).volume);
     });
 
-    $(".instrument-show").on("change", function (e) {
-        const c = getChannelID(e.target);
-        console.log(`toggling instrument ${c} visibility: ${e.target.checked}`);
-        Mixer.visibles[c] = e.target.checked;
-    });
+    // $(".instrument-show").on("change", function (e) {
+    //     const c = getChannelID(e.target);
+    //     console.log(`toggling instrument ${c} visibility: ${e.target.checked}`);
+    //     Mixer.visibles[c] = e.target.checked;
+    // });
 
     $(".instrument-mute").on("change", function (e) {
         const c = getChannelID(e.target);

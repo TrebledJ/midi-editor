@@ -33,11 +33,12 @@ class Channel {
     }
 
     get visible() {
-        return $(`#instrument-show-${this.id}`)[0].value;
+        // return $(`#instrument-show-${this.id}`)[0].value;
+        return true;
     }
 
     set visible(val) {
-        $(`#instrument-show-${this.id}`)[0].value = val;
+        // $(`#instrument-show-${this.id}`)[0].value = val;
     }
 
     get mute() {
