@@ -240,7 +240,7 @@ $(document).ready(function () {
 
     function updateRollWidth() {
         const colWidth = Math.max(
-            $(document).width() * 7 / 12,
+            ($(document).width() * 7) / 12,
             $(".main-container").width()
         );
         const w = colWidth - DOM.roll.yruler - DOM.roll.kbwidth;
@@ -270,8 +270,58 @@ $(document).ready(function () {
         DOM.roll.updateSelectedAttribute("v", Number(DOM.ctrl_velocity.val()));
     });
 
+    // Trigger updates as if called.
+    $("#timebase-control")[0].dispatchEvent(new Event("input"));
+
+    $("#tempo-control").on("change", (e) => {
+        const tempo = Number(e.target.value);
+        console.log(`changing tempo to ${tempo} bpm`);
+        DOM.roll.tempo = tempo;
+    });
+
+    // Initialise settings.
+    $("#tempo-control").val(DOM.roll.tempo);
+    $("#timesig-control-menu a").on('click', (e) => {
+        const sig = e.target.innerHTML;
+        console.log(`changing time sig to ${sig}`);
+
+        function getGridDivs(sig) {
+            // [subdivs per measure, subdivs per beat]
+            switch (sig) {
+                case "2/4": return [8, 4];
+                case "3/4": return [12, 4];
+                default:
+                case "4/4": return [16, 4];
+                case "5/4": return [20, 4];
+                case "6/4": return [24, 4];
+                case "7/4": return [28, 4];
+                case "3/8": return [12, 4];
+                case "6/8": return [24, 4];
+                case "9/8": return [48, 4];
+                case "12/8": return [60, 4];
+            }
+        }
+
+        const [timebase, grid] = getGridDivs(sig);
+        DOM.roll.timebase = timebase;
+        DOM.roll.grid = grid;
+        DOM.roll.redrawGrid();
+        DOM.roll.redrawXRuler();
+    });
+
     // Enable Bootstrap Toggle
     // $("input[type=checkbox]").bootstrapToggle();
+
+    // Dropdown updates button display.
+    $('.dropdown-item').on('click',  function(){
+        if ($(this).hasClass("active"))
+            return;
+        var btnObj = $(this).parent().siblings('button');
+        $(btnObj).text($(this).text());
+        $(btnObj).val($(this).text());
+        $(this).siblings().removeClass("active");
+        $(this).addClass("active");
+    });
 
     // Set up the event handlers
     // $('a.nav-link').on("click", showTab); // Tab clicked
@@ -285,7 +335,7 @@ $(document).ready(function () {
     selectBoxes.forEach((e) => $(options).appendTo(e));
 
     $("#upload-button").on("click", function () {
-        const input = DOM.selectFile(['.mid', '.wav']);
+        const input = DOM.selectFile([".mid", ".wav"]);
         $("#upload-button").prop("disabled", true);
         if (input.files.length > 0 && input.files[0]) {
             MidiUtils.loadFromFile(input.files[0]);
@@ -355,7 +405,4 @@ $(document).ready(function () {
         DOM.roll.stop();
         MIDI.stopAllNotes();
     });
-
-    // Trigger updates as if called.
-    $("#timebase-control")[0].dispatchEvent(new Event("input"));
 });

@@ -1,6 +1,14 @@
 .input-group>* {
-    border: 1px solid #ced4da;
     border-radius: 0.25rem;
+}
+
+.input-group .dropdown-toggle {
+    border: 1px solid #ced4da;
+    text-align: right;
+}
+
+.input-group-text {
+    border: none;
 }
 
 .input-group>.input-group-prepend {
@@ -11,6 +19,11 @@
 .input-group>.input-group-append {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+}
+
+.input-group>.input-group-append:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .input-group>input {
