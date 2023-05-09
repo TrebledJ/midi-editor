@@ -686,7 +686,7 @@ customElements.define(
                         if (ev.f) {
                             (ev.on = ev.n), (ev.ot = ev.t), (ev.og = ev.g);
                             if (firstNoteEncountered && this.onNoteClicked) {
-                                this.onNoteClicked(note);
+                                this.onNoteClicked(ev);
                                 firstNoteEncountered = false;
                             }
                         }
