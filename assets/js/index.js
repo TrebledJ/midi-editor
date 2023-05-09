@@ -182,9 +182,26 @@ function handlePageKeyUp(evt) {
     key_down_status[key_number] = false;
 }
 
-/*
- * You need to write an event handling function for the instrument
- */
+class Mixer {
+    static mutes = Array(DOM.roll.numChannels).fill(false);
+    static solos = Array(DOM.roll.numChannels).fill(false);
+    static visibles = Array(DOM.roll.numChannels).fill(false);
+
+    static anySolos() {
+        return this.solos.reduce((acc, x) => acc || x, false);
+    }
+
+    static shouldPlay(ch) {
+        // Returns whether a channel should play or not.
+        if (this.mutes[ch])
+            // Muted.
+            return false;
+        if (this.anySolos() && !this.solos[ch])
+            // Has solos, but channel not soloed.
+            return false;
+        return true;
+    }
+}
 
 $(document).ready(function () {
     MIDI.loadPlugin({
@@ -238,6 +255,44 @@ $(document).ready(function () {
         },
     });
 
+    function getChannelID(html) {
+        return html.id.split("-").pop() - 1;
+    }
+
+    $(".instrument-select").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`changing instrument ${c} instrument: ${e.target.value}`);
+        MIDI.programChange(c, DOM.roll.ch(c).instrumentNum);
+    });
+
+    $(".instrument-volume").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`changing instrument ${c} volume: ${e.target.value}`);
+        MIDI.setVolume(c, DOM.roll.ch(c).volume);
+    });
+
+    $(".instrument-show").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`toggling instrument ${c} visibility: ${e.target.checked}`);
+        Mixer.visibles[c] = e.target.checked;
+    });
+
+    $(".instrument-mute").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`toggling instrument ${c} mute: ${e.target.checked}`);
+        Mixer.mutes[c] = e.target.checked;
+
+        MIDI.setVolume(c, Mixer.shouldPlay(c) ? 0 : DOM.roll.ch(c).volume);
+    });
+
+    $(".instrument-solo").on("change", function (e) {
+        const c = getChannelID(e.target);
+        console.log(`toggling instrument ${c} solo: ${e.target.checked}`);
+        Mixer.solos[c] = e.target.checked;
+
+        MIDI.setVolume(c, Mixer.shouldPlay(c) ? 0 : DOM.roll.ch(c).volume);
+    });
+
     function updateRollWidth() {
         const colWidth = Math.max(
             ($(document).width() * 7) / 12,
@@ -253,21 +308,37 @@ $(document).ready(function () {
 
     DOM.roll.onNoteClicked = function (note) {
         const { t, n, g, v, ch } = note;
-        DOM.ctrl_pitch.val(n);
-        DOM.ctrl_duration.val(g);
-        DOM.ctrl_velocity.val(v);
+        $("#pitch-control").val(n);
+        $("#duration-control").val(g);
+        $("#velocity-control").val(v);
     };
 
-    DOM.ctrl_pitch.on("change", () => {
-        DOM.roll.updateSelectedAttribute("n", Number(DOM.ctrl_pitch.val()));
+    $("#pitch-control").on("change", () => {
+        DOM.roll.updateSelectedAttribute(
+            "n",
+            Number($("#pitch-control").val())
+        );
     });
 
-    DOM.ctrl_duration.on("change", () => {
-        DOM.roll.updateSelectedAttribute("g", Number(DOM.ctrl_duration.val()));
+    $("#duration-control").on("change", () => {
+        DOM.roll.updateSelectedAttribute(
+            "g",
+            Number($("#duration-control").val())
+        );
     });
 
-    DOM.ctrl_velocity.on("change", () => {
-        DOM.roll.updateSelectedAttribute("v", Number(DOM.ctrl_velocity.val()));
+    $("#velocity-control").on("change", () => {
+        DOM.roll.updateSelectedAttribute(
+            "v",
+            Number($("#velocity-control").val())
+        );
+    });
+
+    $("#channel-control").on("change", () => {
+        DOM.roll.updateSelectedAttribute(
+            "ch",
+            Number($("#channel-control").val())
+        );
     });
 
     // Trigger updates as if called.
@@ -315,8 +386,7 @@ $(document).ready(function () {
         const [timebase, grid] = getGridDivs(sig);
         DOM.roll.timebase = timebase;
         DOM.roll.grid = grid;
-        DOM.roll.redrawGrid();
-        DOM.roll.redrawXRuler();
+        DOM.roll.redraw();
     });
 
     // Enable Bootstrap Toggle
@@ -401,9 +471,13 @@ $(document).ready(function () {
                 // t:noteOnTime, g:noteOffTime, n:noteNumber
                 const { t, g, n, v, ch } = note;
                 console.log("Playing note:", JSON.stringify(note));
-                MIDI.noteOn(ch, n, v);
 
-                // const offDelay = g * MidiUtils.bpm;
+                if (!Mixer.shouldPlay(ch)) {
+                    console.log("Channel excluded by mixer.");
+                    return;
+                }
+
+                MIDI.noteOn(ch, n, v);
                 MIDI.noteOff(ch, n, g - t);
             },
             0
