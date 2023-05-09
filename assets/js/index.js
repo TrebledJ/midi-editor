@@ -291,15 +291,6 @@ $(document).ready(function () {
             // Set up key events
             $(document).keydown(handlePageKeyDown);
             $(document).keyup(handlePageKeyUp);
-
-            for (let c = 0; c < DOM.roll.numChannels; c++) {
-                $(`#instrument-select-${c + 1}`).on("change", (e) => {
-                    console.log(
-                        `Changed instrument on channel ${c} to ${e.target.value}!`
-                    );
-                    MIDI.programChange(c, Instrument.getNumber(e.target.value));
-                });
-            }
         },
     });
 
@@ -460,6 +451,10 @@ $(document).ready(function () {
         .join("");
     const selectBoxes = document.querySelectorAll(".instrument-select");
     selectBoxes.forEach((e) => $(options).appendTo(e));
+    for (let i = 0; i < DOM.roll.numChannels; i++) {
+        $(`#instrument-select-${i+1} option`).eq(2 * i).prop('selected', true);
+    }
+
 
     $("#upload-file-select").on("change", function (e) {
         const input = e.target;
