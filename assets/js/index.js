@@ -1,40 +1,50 @@
-// Recorinding
-const start = document.querySelector("#record-button");
-const stop = document.querySelector("#stop-button");
-const downloadLink = document.getElementById('download');
+// Recording
+let recorder = undefined;
 
 const handleSuccess = function (stream) {
-    const options = { mimeType: 'audio/webm' };
+    const options = { mimeType: "audio/webm" };
     const recordedChunks = [];
     const mediaRecorder = new MediaRecorder(stream, options);
+    recorder = mediaRecorder;
 
-    mediaRecorder.addEventListener('dataavailable', function (e) {
+    mediaRecorder.addEventListener("dataavailable", function (e) {
         if (e.data.size > 0) recordedChunks.push(e.data);
     });
 
-    mediaRecorder.addEventListener('stop', function () {
-        MidiUtils.loadFromWAV(new Blob(recordedChunks));
-        // downloadLink.href = URL.createObjectURL(new Blob(recordedChunks));
-        // downloadLink.download = 'acetest.wav';
-    });
-
-    stop.addEventListener('click', function () {
-        console.log("stop");
-        if (mediaRecorder.state === 'inactive')
-            return;
-        mediaRecorder.stop();
-        mediaRecorder.stream.getAudioTracks().forEach(t => t.stop());
+    mediaRecorder.addEventListener("stop", async function () {
+        const f = new File([new Blob(recordedChunks)], "audio.webm");
+        MidiUtils.loadFromWAV(f, "webm");
     });
 
     mediaRecorder.start();
 };
-start.addEventListener('click', function () {
-    console.log("recording");
 
-    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-        .then(handleSuccess);
-});
+let isRecording = false;
 
+function startRecording() {
+    console.log("recording...");
+
+    navigator.mediaDevices
+        .getUserMedia({ audio: true, video: false })
+        .then(handleSuccess)
+        .then(() => {
+            isRecording = true;
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+
+function stopRecording() {
+    console.log("stopping recording...");
+    
+    if (!recorder || recorder.state === "inactive") return;
+    isRecording = false;
+
+    recorder.stop();
+    recorder.stream.getAudioTracks().forEach((t) => t.stop());
+    recorder = undefined;
+}
 
 // Pitch range from 0-127, inclusive.
 const minPitch = 21;
@@ -467,30 +477,13 @@ $(document).ready(function () {
     });
 
     $("#record-button").on("click", function () {
-        console.log("Record not implemented yet.");
-        return;
-
-        console.log("test!");
-        let string = "";
-        for (let i = 0; i < 128; i++) string += String.fromCharCode(i);
-        string += String.fromCharCode(0xe0);
-
-        var form = new FormData();
-        form.append("data", new Blob([string], { type: "text/plain" }));
-
-        $.ajax({
-            url: "/transform",
-            type: "POST",
-            data: form,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                console.log(response);
-            },
-            error: function (error) {
-                console.error(error);
-            },
-        });
+        if (!isRecording) {
+            startRecording();
+            $("#record-button-text")[0].innerHTML = "Stop";
+        } else {
+            stopRecording();
+            $("#record-button-text")[0].innerHTML = "Record";
+        }
     });
 
     function setInstruments() {

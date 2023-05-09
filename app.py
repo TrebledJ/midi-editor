@@ -23,11 +23,18 @@ def get_asset(path):
 
 filename = 'tmp/audio.wav'
 filename_out = 'tmp/audio.mid'
+filename_webm = 'tmp/audio.webm'
 
 
 def audio_to_midi(options=[]):
     print('converting to midi...')
     res = subprocess.run(['audio-to-midi', *options, '-o', filename_out, filename])
+    res.check_returncode()
+    print('process finished!')
+
+def webm_to_wav():
+    print('converting to webm to wav...')
+    res = subprocess.run(['ffmpeg', '-y', '-i', filename_webm, '-vn', filename])
     res.check_returncode()
     print('process finished!')
 
@@ -37,13 +44,14 @@ def convert_audio_to_midi():
     if 'data' not in request.files and 'file' not in request.files:
         abort(400)
 
-    if 'data' in request.files:
-        file = request.files['data']
+    key = 'data' if 'data' in request.files else 'file'
+    file = request.files[key]
+    if file.filename.endswith('.webm'):
+        # Handle webm specially.
+        file.save(filename_webm)
+        webm_to_wav()
+    else:
         file.save(filename)
-    elif 'file' in request.files:
-        file = request.files['file']
-        file.save(filename)
-
 
     params = [
         '-b 120', # BPM

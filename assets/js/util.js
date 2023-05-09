@@ -209,9 +209,10 @@ class MidiUtils {
         DOM.roll.redraw();
     }
 
-    static loadFromWAV(file) {
+    static loadFromWAV(blobOrFile, type) {
+        type ||= 'wav';
         var form = new FormData();
-        form.append("file", file, "audio.wav");
+        form.append("file", blobOrFile, `audio.${type}`);
         this.transformAudioPayload(form);
     }
 
