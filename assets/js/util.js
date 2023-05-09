@@ -183,6 +183,7 @@ class MidiUtils {
         if (midi.header.tempos.length > 0) {
             // Update BPM.
             this.bpm = midi.header.tempos[0].bpm;
+            $('#tempo-control').val(this.bpm);
         }
 
         midi.tracks.forEach((track) => {
