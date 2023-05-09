@@ -152,79 +152,11 @@
               </div>
             </div>
           </div>
-
-          <br>
-          <br>
-          <br>
-
-          <!-- MIDI Parameter Control Panel -->
-          <div class="d-flex flex-row justify-content-start">
-            <div class="col-6">
-              <span class="">
-                <h5>Note Control</h5>
-              </span>
-              <div class="row">
-                <div class="col-6">
-                  <div class="input-group mr-3 mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Pitch</span>
-                    </div>
-                    <input class="form-control" id="pitch-control" type="number" value="60" min="0" max="127" step="1">
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="input-group mr-3 mb-2">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Duration</span>
-                    </div>
-                    <input class="form-control" id="duration-control" type="number" value="10" min="1" max="120" step="1">
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="input-group mr-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Velocity</span>
-                    </div>
-                    <input class="form-control" id="velocity-control" type="number" value="60" min="1" max="127" step="1">
-                  </div>
-                </div>
-                <div class="col-6">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Channel</span>
-                    </div>
-                    <input class="form-control" id="channel-control" type="number" value="0" min="0" max="8" step="1">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <span class="">
-                <h5>Project Settings</h5>
-              </span>
-              <div class="d-flex flex-row justify-content-start">
-                <div class="input-group mr-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Tempo</span>
-                  </div>
-                  <input class="form-control" id="tempo-control" type="number" value="120" min="10" max="250" step="5">
-                </div>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Beats</span>
-                  </div>
-                  <input class="form-control" id="timesig-control" type="number" value="10" min="1" max="120" step="1">
-                </div>
-              </div>
-            </div>
-
-          </div>
         </div>
 
         <div class="col-4 mixer-container pl-0">
           <!-- Track Control Panel -->
-          <div class="track">
+          <div class="mixer">
             <table id="mixer-table" class="styled-table" width="100%" height="100%">
               <thead>
                 <tr>
@@ -291,6 +223,70 @@
                 <td><input type="checkbox" class="instrument-solo" id="instrument-solo-5"></td>
               </tr>
             </table>
+          </div>
+
+          <!-- MIDI Parameter Control Panel -->
+          <div class="container-fluid p-0">
+            <div class="col-auto p-0 mt-3">
+              <span class="">
+                <h4>Project Settings</h4>
+              </span>
+              <div class="d-flex flex-row justify-content-start">
+                <div class="input-group mr-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Tempo</span>
+                  </div>
+                  <input class="form-control" id="tempo-control" type="number" value="120" min="10" max="250" step="5">
+                </div>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Beats</span>
+                  </div>
+                  <input class="form-control" id="timesig-control" type="number" value="10" min="1" max="120" step="1">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-auto p-0 mt-3">
+              <span class="">
+                <h4>Note Control</h4>
+              </span>
+              <div class="row">
+                <div class="col-6">
+                  <div class="input-group mr-3 mb-2">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Pitch</span>
+                    </div>
+                    <input class="form-control" id="pitch-control" type="number" value="60" min="0" max="127" step="1">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="input-group mr-3 mb-2">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Duration</span>
+                    </div>
+                    <input class="form-control" id="duration-control" type="number" value="10" min="1" max="120" step="1">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="input-group mr-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Velocity</span>
+                    </div>
+                    <input class="form-control" id="velocity-control" type="number" value="60" min="1" max="127" step="1">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Channel</span>
+                    </div>
+                    <input class="form-control" id="channel-control" type="number" value="0" min="0" max="8" step="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
         </div>
