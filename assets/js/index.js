@@ -315,31 +315,27 @@ $(document).ready(function () {
     };
 
     $("#pitch-control").on("change", () => {
-        DOM.roll.updateSelectedAttribute(
-            "n",
-            Number($("#pitch-control").val())
-        );
+        const n = Number($("#pitch-control").val());
+        console.log(`changed channel to ${n}`);
+        DOM.roll.updateSelectedAttribute("n", n);
     });
 
     $("#duration-control").on("change", () => {
-        DOM.roll.updateSelectedAttribute(
-            "g",
-            Number($("#duration-control").val())
-        );
+        const d = Number($("#duration-control").val());
+        console.log(`changed channel to ${d}`);
+        DOM.roll.updateSelectedAttribute("g", d);
     });
 
     $("#velocity-control").on("change", () => {
-        DOM.roll.updateSelectedAttribute(
-            "v",
-            Number($("#velocity-control").val())
-        );
+        const v = Number($("#velocity-control").val());
+        console.log(`changed channel to ${v}`);
+        DOM.roll.updateSelectedAttribute("v", v);
     });
 
     $("#channel-control").on("change", () => {
-        DOM.roll.updateSelectedAttribute(
-            "ch",
-            Number($("#channel-control").val() - 1)
-        );
+        const ch = Number($("#channel-control").val()) - 1;
+        console.log(`changed channel to ${ch}`);
+        DOM.roll.updateSelectedAttribute("ch", ch);
     });
 
     // Trigger updates as if called.
